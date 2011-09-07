@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse.ant.import?>
+
+<project basedir="." default="build" name="GOLDEngine">
+    <property environment="env"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <property name="bin" value="bin"/>
+    <property name="dist" value="dist"/>
+    
+    <tstamp>
+        <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+    </tstamp>
+
+    <!-- Update this value to point your browser of choice (used by junitreport target) -->
+    <property name="browser" location="C:/Program Files (x86)/Mozilla Firefox/firefox.exe"/>
+    
+    <!-- Update this value to point your Eclipse directory -->
+    <property name="ECLIPSE_HOME" value="C:/tools/erm/eclipse"/>
+    
+    <!-- Update this value to match the parser version -->
+    <property name="version" value="5.0 RC1"/>
+    
+    <path id="JUnit 4.libraryclasspath">
+        <pathelement location="${ECLIPSE_HOME}/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar"/>
+        <pathelement location="${ECLIPSE_HOME}/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar"/>
+    </path>
+
+    <path id="GOLDEngine.classpath">
+        <pathelement location="${bin}"/>
+        <path refid="JUnit 4.libraryclasspath"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="${bin}"/>
+        <delete dir="${dist}"/>
+        <delete dir="${junit.output.dir}"/>
+    </target>
+
+    <target depends="clean" name="init">
+        <mkdir dir="${bin}"/>
+        <mkdir dir="${dist}"/>
+        <copy todir="${bin}">
+            <fileset dir="src" excludes="**/*.java"/>
+        </copy>
+        <copy includeemptydirs="false" todir="${dist}/examples/simple2">
+            <fileset dir="src/com/creativewidgetworks/goldparser/simple2/examples"/>
+        </copy>
+        <copy includeemptydirs="false" todir="${dist}/examples/simple3">
+            <fileset dir="src/com/creativewidgetworks/goldparser/simple3/examples"/>
+        </copy>        
+        <copy includeemptydirs="false" todir="${dist}/grammars">
+            <fileset dir="grammars"/>
+        </copy>
+        <copy includeemptydirs="false" todir="${bin}/com/creativewidgetworks/goldparser/simple2">
+            <fileset file="grammars/Simple2.cgt"/>
+        </copy>
+        <copy includeemptydirs="false" todir="${bin}/com/creativewidgetworks/goldparser/simple3">
+            <fileset file="grammars/Simple3.cgt"/>
+        </copy>        
+    </target>
+
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac includeantruntime="false" debug="true" debuglevel="${debuglevel}" destdir="${bin}" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="GOLDEngine.classpath"/>
+        </javac>
+    </target>
+
+    <target name="engine">
+       <jar destfile="${dist}/goldengine.jar">
+           <fileset dir="${bin}">
+               <exclude name="**/test/**"/>
+               <exclude name="**/examples/**"/>
+               <exclude name="com/creativewidgetworks/goldparser/simple2/**"/>
+               <exclude name="com/creativewidgetworks/goldparser/simple3/**"/>
+           </fileset>
+           <manifest>
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Built-On" value="${TODAY}"/>
+               <attribute name="Specification-Title" value="GOLDParser Engine"/>
+               <attribute name="Specification-Version" value="${version}"/>
+               <attribute name="Specification-Vendor" value="Creative Widget Works"/>
+           </manifest>           
+        </jar>
+    </target>
+    
+    <target name="simple2">
+       <jar destfile="${dist}/simple2.jar">
+           <fileset dir="${bin}">
+               <exclude name="**/test/**"/>
+               <exclude name="**/examples/**"/>
+               <exclude name="com/creativewidgetworks/goldparser/simple3/**"/>
+           </fileset>
+           <fileset dir="grammars">
+               <filename name="**/Simple2.cgt"/>
+           </fileset>
+           <manifest>
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Built-On" value="${TODAY}"/>
+               <attribute name="Specification-Title" value="Simple2 Interpreter"/>
+               <attribute name="Specification-Version" value="${version}"/>
+               <attribute name="Specification-Vendor" value="Creative Widget Works"/>
+               <attribute name="Main-Class" value="com.creativewidgetworks.goldparser.simple2.Simple2"/>
+           </manifest>
+        </jar>
+    </target>
+
+   <target name="simple3">
+       <jar destfile="${dist}/simple3.jar">
+           <fileset dir="${bin}">
+               <exclude name="**/test/**"/>
+               <exclude name="**/examples/**"/>
+               <exclude name="com/creativewidgetworks/goldparser/simple2/**"/>
+           </fileset>
+           <manifest>
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Built-On" value="${TODAY}"/>
+               <attribute name="Specification-Title" value="Simple3 Interpreter"/>
+               <attribute name="Specification-Version" value="${version}"/>
+               <attribute name="Specification-Vendor" value="Creative Widget Works"/>           
+               <attribute name="Main-Class" value="com.creativewidgetworks.goldparser.simple3.Simple3"/>
+           </manifest>
+        </jar>
+    </target>    
+
+    <target depends="build-project,engine,simple2,simple3" name="build"/>
+
+    <target name="test">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.CGTTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.CharacterRangeTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.CharacterSetListTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.CharacterSetTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.EntryTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.FAEdgeTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.FAStateListTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.FAStateTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.GroupListTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.GroupTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.LRActionTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.LRStateListTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.LRStateTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.ParserExceptionTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.ParserTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.PositionTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.ProductionListTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.ProductionTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.ReductionTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.SymbolListTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.SymbolTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.TokenTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.enums.CGTRecordTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.enums.EntryTypeTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.enums.LRActionTypeTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.enums.LRConflictTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.enums.ParseMessageTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.enums.ParseResultTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.engine.test.enums.SymbolTypeTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.parser.test.GOLDParserTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.parser.test.ProcessRuleTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.parser.test.ScopeTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.parser.test.SystemConsoleTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.parser.test.VariableTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.simple2.test.AssignTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.simple2.test.DisplayTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.simple2.test.ExpressionTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.simple2.test.IdTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.simple2.test.IfThenElseTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.simple2.test.NegationTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.simple2.test.NumberLiteralTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.simple2.test.ParenthesisTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.simple2.test.StatementsTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.simple2.test.StringLiteralTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.simple2.test.WhileLoopTest" todir="${junit.output.dir}"/>
+            <test name="com.creativewidgetworks.goldparser.simple3.test.FunctionCallTest" todir="${junit.output.dir}"/>
+            <classpath refid="GOLDEngine.classpath"/>
+        </junit>
+    </target>
+
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+        
+        <exec executable="${browser}" spawn="true">
+            <arg value="${junit.output.dir}/index.html"/>
+        </exec>        
+    </target>
+
+</project>
