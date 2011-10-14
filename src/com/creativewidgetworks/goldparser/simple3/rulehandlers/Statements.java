@@ -17,7 +17,7 @@ import com.creativewidgetworks.goldparser.simple3.Simple3;
  * Rule handler for the statement(s) rules.
  *
  * @author Ralph Iden (http://www.creativewidgetworks.com)
- * @version 5.0 RC1 
+ * @version 5.0 RC2 
  */
 public class Statements extends Reduction {
     private Reduction statement1;

@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java
- * @version 5.0 RC1
+ * @version 5.0 RC2
  */
 public class SymbolList extends ArrayList<Symbol> {
     

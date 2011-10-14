@@ -13,7 +13,7 @@ public class CGTRecordTest extends TestCase {
         // This test detects when new enumeration values are added that are
         // not reflected in the test indicating that this test 
         // suite should be updated.
-        CGTRecord.valueOf(CGTRecord.ATTRIBUTES.toString()); // for eclEmma coverage
+        CGTRecord.valueOf(CGTRecord.CHARRANGES.toString()); // for eclEmma coverage
         assertEquals("wrong number of enumerated values... test should be examined and updated", 
             14, CGTRecord.values().length);
     }
@@ -23,13 +23,13 @@ public class CGTRecordTest extends TestCase {
     @Test
     public void testGetCGTRecord() {
         Object[][] expected = {
-            {CGTRecord.ATTRIBUTES, Integer.valueOf(65)},
             {CGTRecord.CHARRANGES, Integer.valueOf(99)},
             {CGTRecord.CHARSET, Integer.valueOf(67)},
             {CGTRecord.COUNTS, Integer.valueOf(84)},
             {CGTRecord.COUNTS5, Integer.valueOf(116)},
             {CGTRecord.DFASTATE, Integer.valueOf(68)},
-            {CGTRecord.GROUP, Integer.valueOf(71)},
+            {CGTRecord.GROUP, Integer.valueOf(103)},
+            {CGTRecord.GROUPNESTING, Integer.valueOf(110)},
             {CGTRecord.INITIALSTATES, Integer.valueOf(73)},
             {CGTRecord.LRSTATE, Integer.valueOf(76)},
             {CGTRecord.PARAMETER, Integer.valueOf(80)},
@@ -38,7 +38,7 @@ public class CGTRecordTest extends TestCase {
             {CGTRecord.SYMBOL, Integer.valueOf(83)},
             {CGTRecord.UNDEFINED, Integer.valueOf(-1)},
         };
-        
+
         for (int i = 0; i < expected.length; i++) {
             int code = ((Integer)expected[i][1]).intValue();
             CGTRecord record = CGTRecord.getCGTRecord(code);

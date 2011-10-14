@@ -2,6 +2,9 @@ package com.creativewidgetworks.goldparser.engine.test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 import com.creativewidgetworks.goldparser.engine.Group;
@@ -22,31 +25,22 @@ public class GroupTest {
         Token container = new Token();
         Token token1 = new Token(new Symbol("/*", SymbolType.GROUP_START, 1), "/*");
         Token token2 = new Token(new Symbol("*/", SymbolType.GROUP_END, 2), "*/");
+
+        List<Integer> list = new ArrayList<Integer>();
         
         group.setName("comment_block");
         group.setStart(token1);
         group.setEnd(token2);
         group.setContainer(container);
-        
+        group.setIndex(999);
+        group.setNesting(list);
+       
         assertEquals("name", "comment_block", group.getName());
         assertEquals("start", token1, group.getStart());
         assertEquals("end", token2, group.getEnd());
         assertEquals("container", container, group.getContainer());        
-    }
-    
-    /*----------------------------------------------------------------------------*/
-
-    @Test
-    public void testIsEndingToken() {
-        Group group = new Group();
-        Token token1 = new Token(new Symbol("GROUP_END", SymbolType.GROUP_END, 1), "*/");
-        Token token2 = new Token(new Symbol("COMMENT_LINE", SymbolType.COMMENT_LINE, 2), "//");
-
-        assertFalse("null token", group.isEndingToken(null));
-        assertFalse("end is null", group.isEndingToken(token1));
-        group.setEnd(token1);
-        assertFalse("no match", group.isEndingToken(token2));
-        assertTrue("match", group.isEndingToken(token1));
+        assertEquals("index", 999, group.getIndex());
+        assertEquals("nesting", list, group.getNesting());
     }
 
 }

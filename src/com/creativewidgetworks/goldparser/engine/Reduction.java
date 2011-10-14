@@ -17,7 +17,7 @@ import com.creativewidgetworks.goldparser.parser.Variable;
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java
- * @version 5.0 RC1
+ * @version 5.0 RC2
  */
 public class Reduction extends ArrayList<Token> {
     private Production parent;

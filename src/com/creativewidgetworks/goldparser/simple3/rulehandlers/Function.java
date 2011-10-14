@@ -18,7 +18,7 @@ import com.creativewidgetworks.goldparser.parser.Variable;
  * end
  *
  * @author Ralph Iden (http://www.creativewidgetworks.com)
- * @version 5.0 RC1 
+ * @version 5.0 RC2 
  */
 public class Function extends Reduction {
     public static final String FUNCTION_PREFIX = "[fn]";

@@ -16,7 +16,7 @@ import com.creativewidgetworks.goldparser.util.ConsoleDriver;
  * @ConsoleDriver
  *
  * @author Ralph Iden (http://www.creativewidgetworks.com)
- * @version 5.0 RC1 
+ * @version 5.0 RC2 
  */
 public class SystemConsole implements ConsoleDriver {
 
@@ -25,7 +25,6 @@ public class SystemConsole implements ConsoleDriver {
      * the user types <CR>.
      * @return data from the user
      */
-    @Override
     public String read() {
         StringBuilder sb = new StringBuilder();
         try {
@@ -50,7 +49,6 @@ public class SystemConsole implements ConsoleDriver {
      * Write string data to stdout.
      * @param data to write.
      */
-    @Override
     public void write(String data) {
         System.out.print(data);    
     }

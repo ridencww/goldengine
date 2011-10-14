@@ -15,7 +15,7 @@ import com.creativewidgetworks.goldparser.simple2.Simple2;
  * Rule handler for the assignment rule.
  *
  * @author Ralph Iden (http://www.creativewidgetworks.com)
- * @version 5.0 RC1 
+ * @version 5.0 RC2 
  */
 public class Assign extends Reduction {
     private GOLDParser theParser;

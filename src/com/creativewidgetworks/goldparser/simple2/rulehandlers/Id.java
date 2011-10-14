@@ -12,7 +12,7 @@ import com.creativewidgetworks.goldparser.simple2.Simple2;
  * Rule handler for the assign the value of a Variable rule.
  *
  * @author Ralph Iden (http://www.creativewidgetworks.com)
- * @version 5.0 RC1 
+ * @version 5.0 RC2 
  */
 public class Id extends Reduction {
     private GOLDParser theParser;

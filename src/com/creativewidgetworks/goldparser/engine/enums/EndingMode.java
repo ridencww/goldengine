@@ -1,9 +1,9 @@
 package com.creativewidgetworks.goldparser.engine.enums;
 
 /**
- * LRConflict 
+ * EndingMode 
  *
- * LRConflict type enumeration
+ * Group ending mode type enumeration
  *
  * Dependencies: None
  *
@@ -11,17 +11,14 @@ package com.creativewidgetworks.goldparser.engine.enums;
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java
  * @version 5.0 RC2 
  */
-public enum LRConflict {
-    UNDEFINED     (-1),
-    SHIFT_SHIFT   (1),  // Never happens
-    SHIFT_REDUCE  (2),
-    REDUCE_REDUCE (3),
-    ACCEPT_REDUCE (4),  // Never happens with this implementation
-    NONE          (5);
-
+public enum EndingMode {
+    OPEN      (0),
+    CLOSED    (1),
+    UNDEFINED (-1);
+    
     private final int enumCode;
 
-    LRConflict(int code) {
+    EndingMode(int code) {
         this.enumCode = code;
     }
 
@@ -29,7 +26,7 @@ public enum LRConflict {
         return enumCode;
     }
 
-    public static LRConflict getLRConflict(int code) {
+    public static EndingMode getEndingMode(int code) {
         for (int i = 0; i < values().length; i++) {
             if (values()[i].enumCode == code) {
                 return values()[i];
@@ -37,4 +34,5 @@ public enum LRConflict {
         }
         return UNDEFINED;
     }
+
 }

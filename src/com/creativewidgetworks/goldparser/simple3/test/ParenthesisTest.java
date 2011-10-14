@@ -73,7 +73,7 @@ public class ParenthesisTest extends GOLDParserTestCase {
     /*----------------------------------------------------------------------------*/
 
     @Test
-    public void testParenthesis_logical_in_parens_with_vsriables() throws Exception {
+    public void testParenthesis_logical_in_parens_with_variables() throws Exception {
         String sourceCode = 
             "s1 = 'alpha'\r\n" +
             "s2 = 'beta'\r\n" +

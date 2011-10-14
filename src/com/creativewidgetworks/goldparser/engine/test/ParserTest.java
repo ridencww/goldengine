@@ -25,8 +25,8 @@ import com.creativewidgetworks.goldparser.engine.enums.ParseMessage;
 
 public class ParserTest extends TestCase {
 
-    public static final String ABOUT_TEXT = "GOLD Parser Engine - Version 4.2";
-    public static final String GENERATED_BY = "GOLD Parser Builder 4.2 RC";
+    public static final String ABOUT_TEXT = "GOLD Parser Engine - Version 5.0";
+    public static final String GENERATED_BY = "GOLD Parser Builder 5.0 RC";
     public static final String GENERATED_ON = "2011-05-29 04:00";
     
     public static final int START_SYMBOL = 39;
@@ -130,12 +130,12 @@ public class ParserTest extends TestCase {
 
     /*----------------------------------------------------------------------------*/
 
-//    @Test
-//    public void testLoadTables_File_EGT() throws Exception {
-//        TestParser parser = new TestParser();
-//        assertTrue("should have loaded tables", parser.loadTables(new File("grammars/Simple2.egt")));
-//        validateLoadTable(parser);
-//    }
+    @Test
+    public void testLoadTables_File_EGT() throws Exception {
+        TestParser parser = new TestParser();
+        assertTrue("should have loaded tables", parser.loadTables(new File("grammars/Simple2.egt")));
+        validateLoadTable(parser);
+    }
     
     /*----------------------------------------------------------------------------*/
 
@@ -157,16 +157,18 @@ public class ParserTest extends TestCase {
         // - present in 1.0 and 5.0 formats
         assertEquals("about", "This is a very simple grammar designed for use in examples", parser.getAttribute(Parser.ABOUT));
         assertEquals("author", "Devin Cook", parser.getAttribute(Parser.AUTHOR));
-        assertEquals("case-sensitive", "false", parser.getAttribute(Parser.CASE_SENSITIVE));
         assertEquals("name", "Simple", parser.getAttribute(Parser.NAME));
-        assertEquals("start-symbol", "39", parser.getAttribute(Parser.START_SYMBOL));
         assertEquals("version", "2.0", parser.getAttribute(Parser.VERSION));
-        // - present in 5.0+ formats
-        if (!parser.isVersion1Format()) {
-            assertEquals("character-mapping", "false", parser.getAttribute(Parser.CHARACTER_MAPPING));
-            assertEquals("character-set", "false", parser.getAttribute(Parser.CHARACTER_SET));
-            assertEquals("generated_by", "2.0", parser.getAttribute(Parser.GENERATED_BY));
-            assertEquals("generated_on", "2.0", parser.getAttribute(Parser.GENERATED_DATE));
+        if (parser.isVersion1Format()) {
+            // - present in 1.0 format
+            assertEquals("case-sensitive", "false", parser.getAttribute(Parser.CASE_SENSITIVE));
+            assertEquals("start_symbol", "39", parser.getAttribute(Parser.START_SYMBOL));
+        } else {
+            // - present in 5.0+ formats
+            assertEquals("character-mapping", "Windows-1252", parser.getAttribute(Parser.CHARACTER_MAPPING));
+            assertEquals("character-set", "Unicode", parser.getAttribute(Parser.CHARACTER_SET));
+            assertEquals("generated_by", "GOLD Parser Builder 5.0 RC 2", parser.getAttribute(Parser.GENERATED_BY));
+            assertEquals("generated_on", "2011-10-11 22:37", parser.getAttribute(Parser.GENERATED_DATE));
         }
         
         // Symbol table
@@ -180,7 +182,7 @@ public class ParserTest extends TestCase {
             {"4", "Whitespace", "NOISE"},
             {"5", "*/", "GROUP_END"},
             {"6", "/*", "GROUP_START"},
-            {"7", "//", "COMMENT_LINE"},
+            {"7", "//", parser.isVersion1Format() ? "COMMENT_LINE" : "GROUP_START"},
             {"8", "-", "CONTENT"},
             {"9", "&", "CONTENT"},
             {"10", "(", "CONTENT"},
@@ -337,6 +339,15 @@ public class ParserTest extends TestCase {
 
     @Test 
     public void testParse_simple_with_comments() throws Exception {
+//        String src = 
+//            "/* \r\n" +
+//            " * // Test\r\n" +
+//            " * /* Hi */ Comment\r\n" +
+//            "*/\r\n" +
+//            "\r\n" +
+//            "// Another comment\r\n" +
+//            "\r\n" +
+//            "display 1 + (5 * 3)";
         String src = 
             "/* \r\n" +
             " * Comment\r\n" +
@@ -468,6 +479,5 @@ public class ParserTest extends TestCase {
             assertEquals("row " + i + " token", expected[i][1], parser.getCurrentToken().asString());
         }
     }
-    
     
 }

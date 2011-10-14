@@ -11,7 +11,9 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.TreeMap;
 
+import com.creativewidgetworks.goldparser.engine.enums.AdvanceMode;
 import com.creativewidgetworks.goldparser.engine.enums.CGTRecord;
+import com.creativewidgetworks.goldparser.engine.enums.EndingMode;
 import com.creativewidgetworks.goldparser.engine.enums.LRActionType;
 import com.creativewidgetworks.goldparser.engine.enums.ParseMessage;
 import com.creativewidgetworks.goldparser.engine.enums.ParseResult;
@@ -47,7 +49,7 @@ import com.creativewidgetworks.goldparser.util.FormatHelper;
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java
- * @version 5.0 RC1
+ * @version 5.0 RC2
  */
 public class Parser {
     
@@ -64,7 +66,7 @@ public class Parser {
     public static final String VERSION           = "Version";
    
     public static final String PARSER_NAME = "GOLD Parser Engine - Version ";
-    public static final String PARSER_VERSION = "4.2";
+    public static final String PARSER_VERSION = "5.0";
 
     // Flag to indicate which grammar table file is being processed
     protected boolean version1Format;
@@ -264,7 +266,7 @@ public class Parser {
 
     /**
      * Loads the parse tables from the specified file.
-     * NOTE: Only CGT version 4.2 is supported.
+     * NOTE: Only CGT version 5.0 is supported.
      * @param file to open and load.
      * @return true if the file was successfully processed.
      * @throws IOException
@@ -279,7 +281,7 @@ public class Parser {
     /**
      * Loads the parse tables from the specified input stream. The inputstream will
      * be closed when the method returns.
-     * NOTE: Only CGT version 4.2 is supported.
+     * NOTE: Only CGT version 5.0 is supported.
      * @param input stream to read.
      * @return true if the stream was successfully processed.
      * @throws IOException
@@ -307,7 +309,6 @@ public class Parser {
                 // System.out.println(CGTRecord.getCGTRecord(recordType));
                 
                 switch (CGTRecord.getCGTRecord(recordType)) {
-                    // Information about the grammar V1
                     case PARAMETER:
                         version1Format = true;
                         setAttribute(NAME, cgt.retrieveString());
@@ -315,29 +316,16 @@ public class Parser {
                         setAttribute(AUTHOR, cgt.retrieveString());
                         setAttribute(ABOUT, cgt.retrieveString());
                         setAttribute(CASE_SENSITIVE, Boolean.toString(cgt.retrieveBoolean()));
-                        setAttribute(START_SYMBOL, Integer.toString(cgt.retrieveInteger()));
-                        break;         
-                        
+                        setAttribute(START_SYMBOL, Integer.toString(cgt.retrieveInteger()));                        
+                        break;
+                
                     case PROPERTY:
                         // Index (not used), name, value
+                        version1Format = false;
                         cgt.retrieveInteger();  // Index (not used)
                         setAttribute(cgt.retrieveString(), cgt.retrieveString());
                         break;
-                        
-
-                    // Information about the grammar V5
-                    case ATTRIBUTES:
-                        version1Format = false;
-//                        grammar = new GrammarAttributes();
-//                        grammar.setName(cgt.retrieveString());
-//                        grammar.setVersion(cgt.retrieveString());
-//                        grammar.setAuthor(cgt.retrieveString());
-//                        grammar.setAbout(cgt.retrieveString());
-//                        grammar.setStartSymbol(cgt.retrieveInteger());
-//                        grammar.setGeneratedBy(cgt.retrieveString());
-//                        grammar.setGeneratedDate(cgt.retrieveString());
-                        break;
-                        
+                      
                     // Counts for Symbols, Rules, DFA, and LALR lists    
                     case COUNTS:
                     case COUNTS5:
@@ -354,25 +342,20 @@ public class Parser {
                         }
                         break;
 
-                    // Character sets V1
+                    // Character set     
                     case CHARSET:
                         index = cgt.retrieveInteger();
                         characterSet = new CharacterSet();
+                        characterSetTable.set(index, characterSet);     
                         characterSet.add(new CharacterRange(cgt.retrieveString()));
-                        characterSetTable.set(index, characterSet);
                         break;
-
-                    // Character sets V5    
+                        
+                    // Character range     
                     case CHARRANGES:
-                        
-                        for (String key : attributes.keySet()) {
-                            System.out.println(key + ":" + attributes.get(key));
-                        }
-                        
-                        
                         index = cgt.retrieveInteger();
+                        cgt.retrieveInteger(); // codepage
                         cgt.retrieveInteger(); // total sets
-                        cgt.retrieveEntry(); // Reserved
+                        cgt.retrieveEntry(); // reserved
 
                         characterSet = new CharacterSet();
                         characterSetTable.set(index, characterSet);
@@ -415,16 +398,23 @@ public class Parser {
                     // Groups   
                     case GROUP:
                         index = cgt.retrieveInteger();
-                        
+
                         Group group = new Group();
                         group.setName(cgt.retrieveString());
                         group.setContainer(symbolTable.get(cgt.retrieveInteger()));
                         group.setStart(symbolTable.get(cgt.retrieveInteger()));
                         group.setEnd(symbolTable.get(cgt.retrieveInteger()));
-                        group.setAllowNesting(cgt.retrieveBoolean());
-                        group.setTokenized(cgt.retrieveBoolean());
-                        group.setOpenEnded(cgt.retrieveBoolean());
+                        group.setAdvanceMode(AdvanceMode.getAdvanceMode(cgt.retrieveInteger()));
+                        group.setEndingMode(EndingMode.getEndingMode(cgt.retrieveInteger()));
 
+                        cgt.retrieveEntry(); // Reserved                        
+                        
+                        // Nesting levels
+                        int count = cgt.retrieveInteger();
+                        for (int i = 0; i < count; i++) {
+                            group.getNesting().add(cgt.retrieveInteger());
+                        }
+  
                         // Link back
                         group.getContainer().setGroup(group);
                         group.getStart().setGroup(group);
@@ -857,38 +847,42 @@ public class Parser {
     private Token produceToken() {
         Token token = null;
 
-        boolean allowNewGroup = false;
+        boolean nestGroup = false;
         
         boolean done = false;
         while (!done) {
             Token read = lookaheadDFA();
             
             // Groups (comments, etc.)
-            if (groupStack.size() == 0) {
-                allowNewGroup = true;
+            // The logic - to determine if a group should be nested - requires that the top 
+            // of the stack and the symbol's linked group need to be looked at. Both of these 
+            // can be unset. So, this section sets a boolean and avoids errors. We will use 
+            // this boolean in the logic chain below. 
+            if (read.getType().equals(SymbolType.GROUP_START) || read.getType().equals(SymbolType.COMMENT_LINE)) {
+                if (groupStack.size() == 0) {
+                    nestGroup = true;
+                } else {
+                    nestGroup = groupStack.peek().getGroup().getNesting().contains(read.getGroup().getIndex());
+                }
             } else {
-                allowNewGroup = groupStack.peek().getGroup().isAllowNesting();
+                nestGroup = false;
             }
 
             // Logic chain
-            if (read.getType().equals(SymbolType.END)) {
-                // EOF always stops the loop. The caller method (parse) can flag a runaway group error.
-                token = read;
-                done = true;
-            } else if (allowNewGroup &&
-                    (read.getType().equals(SymbolType.GROUP_START) || read.getType().equals(SymbolType.COMMENT_LINE))) {
-                // Create a new level
+            if (nestGroup) {
                 consumeBuffer(read.asString().length());
-                groupStack.push(read);
+                groupStack.push(read);                
             } else if (groupStack.size() == 0) {
                 // The token is ready to be analyzed
                 consumeBuffer(read.asString().length());
                 token = read;
                 done = true;
-            } else if (groupStack.peek().getGroup().isEndingToken(read)) {
+            } else if (groupStack.peek().getGroup().getEnd().getTableIndex() == read.getTableIndex()) {
                 // End the current group
                 Token pop = groupStack.pop();
-                if (!pop.getGroup().isOpenEnded()) {
+
+                // Ending logic
+                if (pop.getGroup().getEndingMode() == EndingMode.CLOSED) {
                     pop.appendData(read.asString());
                     consumeBuffer(read.asString().length());
                 }
@@ -902,18 +896,24 @@ public class Parser {
                     // Append group text to parent
                     groupStack.peek().appendData(pop.asString());
                 }
+            } else if (read.getType().equals(SymbolType.END)) {
+                // EOF always stops the loop. The caller method (parse) can flag a runaway group error.
+                token = read;
+                done = true;
             } else {
                 // We are in a group, Append to the Token on the top of the stack.
                 // Take into account the Token group mode 
                 Token top = groupStack.peek();
-                if (top.getGroup().isTokenized()) {
+                if (top.getGroup().getAdvanceMode() == AdvanceMode.TOKEN) {
+                    // Append all text
                     top.appendData(read.asString());
                     consumeBuffer(read.asString().length());
                 } else {
+                    // Append one character
                     top.appendData(read.asString().substring(0, 0));
                     consumeBuffer(1);
                 }
-            }
+            }                
         }
         
         return token;
@@ -941,9 +941,8 @@ public class Parser {
                     group.setContainer(symbolTable.findByName(SymbolList.SYMBOL_COMMENT));
                     group.setStart(symbolStart);
                     group.setEnd(symbolTable.findByName("NewLine"));
-                    group.setAllowNesting(false);
-                    group.setTokenized(true);
-                    group.setOpenEnded(true);
+                    group.setAdvanceMode(AdvanceMode.TOKEN);
+                    group.setEndingMode(EndingMode.OPEN);
                     groupTable.add(group);
                     symbolStart.setGroup(group);
                     break;
@@ -965,9 +964,8 @@ public class Parser {
                     group.setContainer(symbolTable.findByName(SymbolList.SYMBOL_COMMENT));
                     group.setStart(symbolStart);
                     group.setEnd(symbolEnd);
-                    group.setAllowNesting(false);
-                    group.setTokenized(true);
-                    group.setOpenEnded(false);
+                    group.setAdvanceMode(AdvanceMode.TOKEN);
+                    group.setEndingMode(EndingMode.CLOSED);
                     groupTable.add(group);
                     
                     symbolStart.setGroup(group);                         

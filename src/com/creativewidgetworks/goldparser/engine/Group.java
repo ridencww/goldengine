@@ -1,5 +1,11 @@
 package com.creativewidgetworks.goldparser.engine;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.creativewidgetworks.goldparser.engine.enums.AdvanceMode;
+import com.creativewidgetworks.goldparser.engine.enums.EndingMode;
+
 /**
  * Group  
  * Container for a group of symbols.
@@ -9,17 +15,24 @@ package com.creativewidgetworks.goldparser.engine;
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java
- * @version 5.0 RC1 
+ * @version 5.0 RC2 
  */
 public class Group {
     private String name;
     private Symbol container;
     private Symbol start;
     private Symbol end;
-    private boolean allowNesting;
-    private boolean isTokenized;
-    private boolean isOpenEnded;
+    private AdvanceMode advance;
+    private EndingMode ending;
+    private int tableIndex;
+    private List<Integer> nesting;
 
+    public Group() {
+        advance = AdvanceMode.CHARACTER;
+        ending = EndingMode.CLOSED;
+        nesting = new ArrayList<Integer>();
+    }
+    
     public String getName() {
         return name;
     }
@@ -36,20 +49,20 @@ public class Group {
         return end;
     }
     
-    public boolean isAllowNesting() {
-        return allowNesting;
+    public AdvanceMode getAdvanceMode() {
+        return advance;
     }
     
-    public boolean isEndingToken(Token token) {
-        return end == null ? false : end.getName().equals(token.getName());
+    public EndingMode getEndingMode() {
+        return ending;
     }
     
-    public boolean isTokenized() {
-        return isTokenized;
+    public int getIndex() {
+        return tableIndex;
     }
-    
-    public boolean isOpenEnded() {
-        return isOpenEnded;
+
+    public List<Integer> getNesting() {
+        return nesting;
     }
     
     public void setName(String name) {
@@ -67,16 +80,21 @@ public class Group {
     public void setEnd(Symbol end) {
         this.end = end;
     }
-    
-    public void setAllowNesting(boolean allowNesting) {
-        this.allowNesting = allowNesting;
+
+    public void setAdvanceMode(AdvanceMode mode) {
+        this.advance = mode;
     }
     
-    public void setTokenized(boolean isTokenized) {
-        this.isTokenized = isTokenized;
+    public void setEndingMode(EndingMode mode) {
+        this.ending = mode;
     }
     
-    public void setOpenEnded(boolean isOpenEnded) {
-        this.isOpenEnded = isOpenEnded;
+    public void setIndex(int tableIndex) {
+        this.tableIndex = tableIndex;
     }
+
+    public void setNesting(List<Integer>nesting) {
+        this.nesting = nesting;
+    }    
+    
 }

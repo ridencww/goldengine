@@ -12,7 +12,7 @@ import java.sql.Timestamp;
  * Dependencies: None
  *
  * @author Ralph Iden (http://www.creativewidgetworks.com)
- * @version 5.0 RC1 
+ * @version 5.0 RC2 
  */
 public class Variable {
     private static final String TRUE  = "1,true,";

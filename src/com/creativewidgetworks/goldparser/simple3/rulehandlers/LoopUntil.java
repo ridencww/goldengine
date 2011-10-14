@@ -12,7 +12,7 @@ import com.creativewidgetworks.goldparser.simple3.Simple3;
  * Rule handler for the loop until rule.
  *
  * @author Ralph Iden (http://www.creativewidgetworks.com)
- * @version 5.0 RC1 
+ * @version 5.0 RC2 
  */
 public class LoopUntil extends Reduction {
     private Reduction conditional;

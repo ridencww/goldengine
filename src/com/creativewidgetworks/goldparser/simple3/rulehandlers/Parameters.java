@@ -20,7 +20,7 @@ import com.creativewidgetworks.goldparser.parser.GOLDParser;
  * Rule handler for the function parameters rule.
  *
  * @author Ralph Iden (http://www.creativewidgetworks.com)
- * @version 5.0 RC1 
+ * @version 5.0 RC2 
  */
 public class Parameters extends Reduction {
 

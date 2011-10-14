@@ -22,7 +22,7 @@ import com.creativewidgetworks.goldparser.simple3.Simple3;
  *   result = ID(<optional_args>)
  *
  * @author Ralph Iden (http://www.creativewidgetworks.com)
- * @version 5.0 RC1 
+ * @version 5.0 RC2 
  */
 public class FunctionCall extends Reduction {
     private final GOLDParser theParser;

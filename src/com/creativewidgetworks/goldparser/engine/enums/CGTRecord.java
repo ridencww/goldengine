@@ -9,24 +9,22 @@ package com.creativewidgetworks.goldparser.engine.enums;
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java
- * @version 5.0 RC1 
+ * @version 5.0 RC2 
  */
 public enum CGTRecord {
-    ATTRIBUTES    (65),  // A
-    PARAMETER     (80),  // P
-    COUNTS        (84),  // T Table counts
-    CHARSET       (67),  // C
-    
     INITIALSTATES (73),  // I
     SYMBOL        (83),  // S
     RULE          (82),  // R Rule/related productions
     DFASTATE      (68),  // D
     LRSTATE       (76),  // L
-    CHARRANGES    (99),  // c
-    GROUP         (71),  // G
-    
+    PARAMETER     (80),  // P (version 1 parameter block)
     PROPERTY      (112), // p (version 5 key/value property)
-    COUNTS5       (116), // t
+    CHARSET       (67),  // C (version 1 character sets)
+    CHARRANGES    (99),  // c (version 5 character range)
+    GROUP         (103), // g
+    GROUPNESTING  (110), // n
+    COUNTS        (84),  // T Table counts
+    COUNTS5       (116), // t Table counts
     
     UNDEFINED     (-1);
     
@@ -50,4 +48,3 @@ public enum CGTRecord {
     }
 
 }
-

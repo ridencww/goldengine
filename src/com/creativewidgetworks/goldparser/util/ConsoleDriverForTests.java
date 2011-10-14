@@ -20,7 +20,6 @@ public class ConsoleDriverForTests implements ConsoleDriver {
     // These are the methods that implement the ConsoleDriver interface
     /*----------------------------------------------------------------------------*/
     
-    @Override
     public String read() {
         String data = null;
         if (index < dataToInput.size()) {
@@ -29,7 +28,6 @@ public class ConsoleDriverForTests implements ConsoleDriver {
         return data;
     }
 
-    @Override
     public void write(String data) {
         try {
             baos.write(data.getBytes("utf-8"));

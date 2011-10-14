@@ -17,7 +17,7 @@ import com.creativewidgetworks.goldparser.engine.enums.EntryType;
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java
- * @version 5.0 RC1 
+ * @version 5.0 RC2 
  */
 public class CGT {
     public static final int RECORD_CONTENT_MULTI = 77;  // M

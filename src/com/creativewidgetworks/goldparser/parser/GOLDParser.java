@@ -34,7 +34,7 @@ import com.creativewidgetworks.goldparser.util.ResourceHelper;
  * @ResourceHelper
  *
  * @author Ralph Iden (http://www.creativewidgetworks.com)
- * @version 5.0 RC1 
+ * @version 5.0 RC2 
  */
 public class GOLDParser extends Parser {
 

@@ -14,7 +14,7 @@ import com.creativewidgetworks.goldparser.util.FormatHelper;
  * trees can be generated from the input stream.
  *
  * @author Ralph Iden (http://www.creativewidgetworks.com)
- * @version 5.0 RC1 
+ * @version 5.0 RC2 
  */
 public class Simple2 {
     

@@ -21,7 +21,7 @@
     <property name="ECLIPSE_HOME" value="C:/tools/erm/eclipse"/>
     
     <!-- Update this value to match the parser version -->
-    <property name="version" value="5.0 RC1"/>
+    <property name="version" value="5.0 RC2"/>
     
     <path id="JUnit 4.libraryclasspath">
         <pathelement location="${ECLIPSE_HOME}/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar"/>

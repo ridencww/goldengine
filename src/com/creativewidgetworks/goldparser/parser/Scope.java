@@ -13,7 +13,7 @@ import java.util.TreeMap;
  * @Variable
  *
  * @author Ralph Iden (http://www.creativewidgetworks.com)
- * @version 5.0 RC1 
+ * @version 5.0 RC2 
  */
 public class Scope {
     private final String name;
