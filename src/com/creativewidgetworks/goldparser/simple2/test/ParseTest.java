@@ -8,7 +8,7 @@ public class ParseTest extends GOLDParserTestCase {
 
     @Test
     public void testMultipleParses() throws Exception {
-        // Verify that same parser instance can be used multiple times
+        // Verify that same parser instance can be used to parse multiple source streams
         GOLDParserForTesting parser = new GOLDParserForTesting();
         String[] actual = executeProgram(parser, "display \"Hello\"\r\n");
         validateLines(makeExpected("Hello"), actual);

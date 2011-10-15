@@ -910,7 +910,7 @@ public class Parser {
                     consumeBuffer(read.asString().length());
                 } else {
                     // Append one character
-                    top.appendData(read.asString().substring(0, 0));
+                    top.appendData(read.asString().substring(0, 1));
                     consumeBuffer(1);
                 }
             }                

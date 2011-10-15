@@ -339,15 +339,6 @@ public class ParserTest extends TestCase {
 
     @Test 
     public void testParse_simple_with_comments() throws Exception {
-//        String src = 
-//            "/* \r\n" +
-//            " * // Test\r\n" +
-//            " * /* Hi */ Comment\r\n" +
-//            "*/\r\n" +
-//            "\r\n" +
-//            "// Another comment\r\n" +
-//            "\r\n" +
-//            "display 1 + (5 * 3)";
         String src = 
             "/* \r\n" +
             " * Comment\r\n" +
@@ -393,6 +384,62 @@ public class ParserTest extends TestCase {
             {ParseMessage.ACCEPT, ""},      
         };
 
+        for (int i = 0; i < expected.length; i++) {
+            assertEquals("row " + i + " token type", expected[i][0], parser.parse());
+            assertEquals("row " + i + " token", expected[i][1], parser.getCurrentToken().asString());
+        }
+    }
+
+    /*----------------------------------------------------------------------------*/
+    
+    @Test 
+    public void testParse_simple_with_nested_comments() throws Exception {
+        String src = 
+            "/* \r\n" +
+            " * // Test\r\n" +
+            " * /* Hi */ Comment\r\n" +
+            "*/\r\n" +
+            "\r\n" +
+            "// Another comment\r\n" +
+            "\r\n" +
+            "display 1 + (5 * 3)";
+        
+        TestParser parser = new TestParser();
+        parser.setTrimReductions(true);
+        assertTrue("should have loaded tables", parser.loadTables(new File("grammars/Simple2a.egt")));
+        assertTrue("should have opened source to parse", parser.open(src));
+        
+        Object[][] expected = {
+                {ParseMessage.TOKEN_READ, "/* \r\n * // Test\r\n * /* Hi */ Comment\r\n*/"},    
+                {ParseMessage.TOKEN_READ, "\r\n"},  // CRLF after the comment
+                {ParseMessage.TOKEN_READ, "\r\n"},
+                {ParseMessage.TOKEN_READ, "// Another comment"},
+                {ParseMessage.TOKEN_READ, "\r\n"}, // CRLF after line comment
+                {ParseMessage.TOKEN_READ, "\r\n"},
+                {ParseMessage.TOKEN_READ, "display"},
+                {ParseMessage.TOKEN_READ, " "},
+                {ParseMessage.TOKEN_READ, "1"},
+                {ParseMessage.TOKEN_READ, " "},
+                {ParseMessage.TOKEN_READ, "+"},
+                {ParseMessage.REDUCTION, "+"},
+                {ParseMessage.TOKEN_READ, " "},
+                {ParseMessage.TOKEN_READ, "("},
+                {ParseMessage.TOKEN_READ, "5"},
+                {ParseMessage.TOKEN_READ, " "},
+                {ParseMessage.TOKEN_READ, "*"},
+                {ParseMessage.REDUCTION, "*"},
+                {ParseMessage.TOKEN_READ, " "},
+                {ParseMessage.TOKEN_READ, "3"},
+                {ParseMessage.TOKEN_READ, ")"},
+                {ParseMessage.REDUCTION, ")"},
+                {ParseMessage.REDUCTION, ")"},
+                {ParseMessage.TOKEN_READ, ""},
+                {ParseMessage.REDUCTION, ""},
+                {ParseMessage.REDUCTION, ""},
+                {ParseMessage.REDUCTION, ""},
+                {ParseMessage.ACCEPT, ""},      
+        };
+        
         for (int i = 0; i < expected.length; i++) {
             assertEquals("row " + i + " token type", expected[i][0], parser.parse());
             assertEquals("row " + i + " token", expected[i][1], parser.getCurrentToken().asString());
