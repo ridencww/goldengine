@@ -104,7 +104,7 @@ public class Simple3 {
                 System.out.println(tree);
             }
         } else {
-            System.out.println("Usage: jar -jar simple3.jar <sourcefile> [-tree]");
+            System.out.println("Usage: java -jar simple3.jar <sourcefile> [-tree]");
         }
     }
 

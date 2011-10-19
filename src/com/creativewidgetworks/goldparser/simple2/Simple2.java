@@ -99,7 +99,7 @@ public class Simple2 {
                 System.out.println(tree);
             }
         } else {
-            System.out.println("Usage: jar -jar simple2.jar <sourcefile> [-tree]");
+            System.out.println("Usage: java -jar simple2.jar <sourcefile> [-tree]");
         }
     }
 }
