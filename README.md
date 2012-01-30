@@ -50,7 +50,7 @@ Build the project and create the JAR:
     mvn clean install
 
 
-### Maven (Deployment to Central Repository pending)
+### Maven
 
 If you're using Maven, add the following to your project's pom.xml:
 
@@ -59,6 +59,8 @@ If you're using Maven, add the following to your project's pom.xml:
       <artifactId>goldengine</artifactId>
       <version>5.0.0</version>
     </dependency>
+
+The goldengine artifacts are available for download at the Maven Central repository.
 
 ## Using the samples
 

@@ -1,10 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
 
   <modelVersion>4.0.0</modelVersion>
+  
   <groupId>com.creativewidgetworks</groupId>
+  
   <artifactId>goldengine</artifactId>
+  
   <version>5.0.0</version>
+  
   <packaging>jar</packaging>
 
   <name>GOLDEngine</name>
@@ -23,9 +33,9 @@
   </licenses>  
   
   <scm>
-    <connection>git://github.com/ridencww/goldengine</connection>
-    <developerConnection>git@github.com:ridencww/goldengine</developerConnection>
-    <url>https://github.com/ridencww/goldengine</url>
+    <connection>scm:git:git@github.com:ridencww/goldengine.git</connection>
+    <developerConnection>scm:git:git@github.com:ridencww/goldengine.git</developerConnection>
+    <url>git@github.com:ridencww/goldengine.git</url>
   </scm>  
 
   <developers>
@@ -38,52 +48,7 @@
       </roles>
     </developer>
   </developers>  
-  
-  <build>
-  	<plugins>
-    <!--
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.4</version>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-  	</plugins>
-  </build>
-
+ 
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -92,5 +57,5 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
+  
 </project>
