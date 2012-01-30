@@ -2,3 +2,7 @@
 /bin
 /dist
 /junit
+/target
+/.settings
+.classpath
+.project

@@ -1,0 +1,96 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.creativewidgetworks</groupId>
+  <artifactId>goldengine</artifactId>
+  <version>5.0.0</version>
+  <packaging>jar</packaging>
+
+  <name>GOLDEngine</name>
+
+  <description>
+  Java implementation of Devin Cook's GOLD Parser engine 
+  </description>
+  
+  <url>https://github.com/ridencww/goldengine</url>
+
+  <licenses>
+    <license>
+      <name>Modified BSD</name>
+      <url>http://www.opensource.org/licenses/BSD-3-Clause</url>
+    </license>
+  </licenses>  
+  
+  <scm>
+    <connection>git://github.com/ridencww/goldengine</connection>
+    <developerConnection>git@github.com:ridencww/goldengine</developerConnection>
+    <url>https://github.com/ridencww/goldengine</url>
+  </scm>  
+
+  <developers>
+    <developer>
+      <id>riden</id>
+      <name>Ralph Iden</name>
+      <email>riden@creativewidgetworks.com</email>
+      <timezone>GMT-6</timezone>
+      <roles>
+      </roles>
+    </developer>
+  </developers>  
+  
+  <build>
+  	<plugins>
+    <!--
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.4</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+  	</plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+</project>
