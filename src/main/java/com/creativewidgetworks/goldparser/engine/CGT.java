@@ -61,17 +61,17 @@ public class CGT {
      * @throws IOException
      */
     private int rawReadUInt16() throws IOException {
-        byte b0 = readByte();
-        byte b1 = readByte();
+        int b0 = readByte();
+        int b1 = readByte();
         return (b1 << 8) + b0;
     }
     
     /*----------------------------------------------------------------------------*/
 
-    private byte readByte() throws IOException {
+    private int readByte() throws IOException {
         int i = is.read();
         eofReached = i == -1;
-        return (byte)i;
+        return i & 0xff;
     }
     
     /*----------------------------------------------------------------------------*/
@@ -81,17 +81,17 @@ public class CGT {
         
         if (entriesRead < entryCount) {
             entriesRead++;
-            byte entryType = readByte();
+            int entryType = readByte();
             switch (EntryType.getEntryType(entryType)) {
                 case BOOLEAN:
-                    byte b = readByte();
+                    int b = readByte();
                     result.setType(EntryType.BOOLEAN);
                     result.setValue(b == 1 ? Boolean.TRUE : Boolean.FALSE);
                     break;
                     
                 case BYTE:
                     result.setType(EntryType.BYTE);
-                    result.setValue(Byte.valueOf(readByte()));
+                    result.setValue(Integer.valueOf(readByte()));
                     break;
                     
                 case EMPTY:
@@ -197,7 +197,7 @@ public class CGT {
         
         // Start next record
         boolean result;
-        byte id = readByte();
+        int id = readByte();
         if (id == RECORD_CONTENT_MULTI) {
             entriesRead = 0;
             entryCount = rawReadUInt16();
@@ -260,8 +260,8 @@ public class CGT {
      * @return byte
      * @throws IOException
      */
-    public byte retrieveByte() throws IOException {
-        return ((Byte)retrieveEntry(EntryType.BYTE)).byteValue();
+    public int retrieveByte() throws IOException {
+        return ((Integer)retrieveEntry(EntryType.BYTE)).intValue();
     }
 
     /*----------------------------------------------------------------------------*/
