@@ -27,8 +27,6 @@ This project uses Java 1.5+ and requires no additional libraries other than the 
 Download the pre-built jar file and include in your project's classpath.
 
 [GOLDEngine for Java jar with examples][2]
-<br/><br/>
-[GOLDEngine for Java jar, engine only][3]
 
 ### From source
 
