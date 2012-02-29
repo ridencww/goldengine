@@ -18,47 +18,47 @@ import com.creativewidgetworks.goldparser.engine.enums.EntryType;
 public class CGTTest extends TestCase {
 
     // "Gold Parser<0>"
-    public static final byte[] HEADER = new byte[] {71,0,79,0,76,0,68,0,32,0,80,0,97,0,114,0,115,0,101,0,114,0,0,0};
+    public static final int[] HEADER = new int[] {71,0,79,0,76,0,68,0,32,0,80,0,97,0,114,0,115,0,101,0,114,0,0,0};
 
     // TRUE, FALSE, TRUE, FALSE
-    public static final byte[] SAMPLE_BOOLEANS = new byte[] {
-        (byte)CGT.RECORD_CONTENT_MULTI, 4, 0,  // 4 entries follow
-        (byte)EntryType.BOOLEAN.getCode(), 1,
-        (byte)EntryType.BOOLEAN.getCode(), 0,
-        (byte)EntryType.BOOLEAN.getCode(), 1,
-        (byte)EntryType.BOOLEAN.getCode(), 0,
+    public static final int[] SAMPLE_BOOLEANS = new int[] {
+        CGT.RECORD_CONTENT_MULTI, 4, 0,  // 4 entries follow
+        EntryType.BOOLEAN.getCode(), 1,
+        EntryType.BOOLEAN.getCode(), 0,
+        EntryType.BOOLEAN.getCode(), 1,
+        EntryType.BOOLEAN.getCode(), 0,
     };
     
-    // 1, 2, 3
-    public static final byte[] SAMPLE_BYTES = new byte[] {
-        (byte)CGT.RECORD_CONTENT_MULTI, 3, 0,  // 3 entries follow
-        (byte)EntryType.BYTE.getCode(), 1,
-        (byte)EntryType.BYTE.getCode(), 2,
-        (byte)EntryType.BYTE.getCode(), 3,
+    // 1, 253, 3
+    public static final int[] SAMPLE_BYTES = new int[] {
+        CGT.RECORD_CONTENT_MULTI, 3, 0,  // 3 entries follow
+        EntryType.BYTE.getCode(), 1,
+        EntryType.BYTE.getCode(), 253,
+        EntryType.BYTE.getCode(), 3,
     };
 
-    // 1, 256, 771
-    public static final byte[] SAMPLE_UINT16S = new byte[] {
-        (byte)CGT.RECORD_CONTENT_MULTI, 3, 0,  // 3 entries follow
-        (byte)EntryType.UINT16.getCode(), 1, 0,
-        (byte)EntryType.UINT16.getCode(), 0, 1,
-        (byte)EntryType.UINT16.getCode(), 3, 3,
+    // 1, 59266, 771
+    public static final int[] SAMPLE_UINT16S = new int[] {
+        CGT.RECORD_CONTENT_MULTI, 3, 0,  // 3 entries follow
+        EntryType.UINT16.getCode(), 1, 0,
+        EntryType.UINT16.getCode(), 130, 231,
+        EntryType.UINT16.getCode(), 3, 3,
     };
 
     // "Abc", "DėF" (e dot)
-    public static final byte[] SAMPLE_STRINGS = new byte[] {
-        (byte)CGT.RECORD_CONTENT_MULTI, 2, 0,  // 2 entries follow
-        (byte)EntryType.STRING.getCode(), 65, 0, 98, 0, 99, 0, 0, 0,
-        (byte)EntryType.STRING.getCode(), 68, 0, 23, 1, 70, 0, 0, 0,
+    public static final int[] SAMPLE_STRINGS = new int[] {
+        CGT.RECORD_CONTENT_MULTI, 2, 0,  // 2 entries follow
+        EntryType.STRING.getCode(), 65, 0, 98, 0, 99, 0, 0, 0,
+        EntryType.STRING.getCode(), 68, 0, 23, 1, 70, 0, 0, 0,
     };
     
     // Combination of exceptional types unlikely to be in the stream, but defined in enumeration
-    public static final byte[] SAMPLE_UNLIKELY = new byte[] {
-        (byte)CGT.RECORD_CONTENT_MULTI, 1, 0,  // 1 entry follows
-        (byte)EntryType.EMPTY.getCode(),
-        (byte)CGT.RECORD_CONTENT_MULTI, 1, 0,  // 1 entry follows
-        (byte)EntryType.ERROR.getCode(),
-        (byte)CGT.RECORD_CONTENT_MULTI, 1, 0,  // 1 entry follows
+    public static final int[] SAMPLE_UNLIKELY = new int[] {
+        CGT.RECORD_CONTENT_MULTI, 1, 0,  // 1 entry follows
+        EntryType.EMPTY.getCode(),
+        CGT.RECORD_CONTENT_MULTI, 1, 0,  // 1 entry follows
+        EntryType.ERROR.getCode(),
+        CGT.RECORD_CONTENT_MULTI, 1, 0,  // 1 entry follows
         (byte)-56, // unknown value mapped to UNDEFINED
     };
     
@@ -70,17 +70,22 @@ public class CGTTest extends TestCase {
      * @param other arrays to copy (optional)
      * @return byte[] array will all values added.
      */
-    private byte[] concat(byte[] first, byte[]... others) {
+    private byte[] toByteArray(int[] first, int[]... others) {
         int offset = first.length;
         int totalLength = offset;
-        for (byte[] array : others) {
+        for (int[] array : others) {
           totalLength += array.length;
         }
         
-        byte[] result = Arrays.copyOf(first, totalLength);
-        for (byte[] array : others) {
-          System.arraycopy(array, 0, result, offset, array.length);
+        int[] all = Arrays.copyOf(first, totalLength);
+        for (int[] array : others) {
+          System.arraycopy(array, 0, all, offset, array.length);
           offset += array.length;
+        }
+        
+        byte[] result = new byte[all.length];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = (byte)(all[i] & 0xff);
         }
         
         return result;
@@ -107,11 +112,11 @@ public class CGTTest extends TestCase {
         cgt.open(new ByteArrayInputStream(new byte[] {}));
         assertTrue("empty (no header, etc.) returns true", cgt.atEOF());
         
-        cgt.open(new ByteArrayInputStream(HEADER));
+        cgt.open(new ByteArrayInputStream(toByteArray(HEADER)));
         cgt.close();
         assertTrue("closed stream returns true", cgt.atEOF());
 
-        cgt.open(new ByteArrayInputStream(HEADER));
+        cgt.open(new ByteArrayInputStream(toByteArray(HEADER)));
         assertFalse("header, but nothing else read returns false", cgt.atEOF());
         cgt.getNextRecord();
         assertTrue("no more data returns true", cgt.atEOF());
@@ -133,7 +138,7 @@ public class CGTTest extends TestCase {
         assertTrue(cgt.atEOF());  
         
         // Open file and then close it without reading
-        cgt.open(new ByteArrayInputStream(HEADER));
+        cgt.open(new ByteArrayInputStream(toByteArray(HEADER)));
         assertFalse("should be ready to read", cgt.atEOF());
         cgt.close();
         assertTrue(cgt.atEOF());  
@@ -144,7 +149,7 @@ public class CGTTest extends TestCase {
     @Test
     public void testIsRecordComplete() throws Exception {
         CGT cgt = new CGT();
-        cgt.open(new ByteArrayInputStream(concat(HEADER, SAMPLE_BYTES)));
+        cgt.open(new ByteArrayInputStream(toByteArray(HEADER, SAMPLE_BYTES)));
 
         // Read next block
         cgt.getNextRecord();
@@ -166,7 +171,7 @@ public class CGTTest extends TestCase {
     @Test
     public void testGetEntryCount() throws Exception {
         CGT cgt = new CGT();
-        cgt.open(new ByteArrayInputStream(concat(HEADER, SAMPLE_BYTES)));
+        cgt.open(new ByteArrayInputStream(toByteArray(HEADER, SAMPLE_BYTES)));
         assertEquals("shouldn't have entries to process", 0, cgt.getEntryCount());
         cgt.getNextRecord();
         assertEquals("wrong number of entries", 3, cgt.getEntryCount());
@@ -177,7 +182,7 @@ public class CGTTest extends TestCase {
     @Test
     public void testGetEntriesRead() throws Exception {
         CGT cgt = new CGT();
-        cgt.open(new ByteArrayInputStream(concat(HEADER, SAMPLE_BYTES)));
+        cgt.open(new ByteArrayInputStream(toByteArray(HEADER, SAMPLE_BYTES)));
         assertEquals("shouldn't have entries that have been read", 0, cgt.getEntriesRead());
         cgt.getNextRecord();
         assertEquals("shouldn't have entries that have been read", 0, cgt.getEntriesRead());
@@ -204,7 +209,7 @@ public class CGTTest extends TestCase {
     public void testGetHeader() throws Exception {
         CGT cgt = new CGT();
         assertNull("didn't expect header", cgt.getHeader());
-        cgt.open(new ByteArrayInputStream(concat(HEADER, SAMPLE_BYTES)));
+        cgt.open(new ByteArrayInputStream(toByteArray(HEADER, SAMPLE_BYTES)));
         assertEquals("wrong value", "GOLD Parser", cgt.getHeader());
     }
 
@@ -219,11 +224,11 @@ public class CGTTest extends TestCase {
         assertFalse(cgt.getNextRecord());
         
         // File with no sections
-        cgt.open(new ByteArrayInputStream(HEADER));
+        cgt.open(new ByteArrayInputStream(toByteArray(HEADER)));
         assertFalse(cgt.getNextRecord());
         
         // File with three sections
-        cgt.open(new ByteArrayInputStream(concat(HEADER, SAMPLE_BOOLEANS, SAMPLE_BYTES, SAMPLE_STRINGS)));
+        cgt.open(new ByteArrayInputStream(toByteArray(HEADER, SAMPLE_BOOLEANS, SAMPLE_BYTES, SAMPLE_STRINGS)));
         assertTrue("booleans", cgt.getNextRecord());
         assertTrue("bytes", cgt.getNextRecord());
         assertTrue("strings", cgt.getNextRecord());
@@ -241,7 +246,7 @@ public class CGTTest extends TestCase {
         try {
             // Write test data to a temp file
             FileOutputStream fos = new FileOutputStream(tempFile);
-            fos.write(concat(HEADER, SAMPLE_BYTES));
+            fos.write(toByteArray(HEADER, SAMPLE_BYTES));
             fos.close();
             
             try {
@@ -274,7 +279,7 @@ public class CGTTest extends TestCase {
             assertEquals("wrong message", "InputStream null", e.getMessage());
         }
         
-        cgt.open(new ByteArrayInputStream(concat(HEADER, SAMPLE_BYTES)));
+        cgt.open(new ByteArrayInputStream(toByteArray(HEADER, SAMPLE_BYTES)));
         assertEquals("wrong value", "GOLD Parser", cgt.getHeader());
     }
     
@@ -285,7 +290,7 @@ public class CGTTest extends TestCase {
         CGT cgt = new CGT();
         Entry entry;
         
-        cgt.open(new ByteArrayInputStream(concat(HEADER, SAMPLE_BOOLEANS, SAMPLE_BYTES, SAMPLE_STRINGS, SAMPLE_UNLIKELY)));
+        cgt.open(new ByteArrayInputStream(toByteArray(HEADER, SAMPLE_BOOLEANS, SAMPLE_BYTES, SAMPLE_STRINGS, SAMPLE_UNLIKELY)));
         
         // Booleans
         assertTrue(cgt.getNextRecord());
@@ -321,7 +326,7 @@ public class CGTTest extends TestCase {
         assertTrue(cgt.getNextRecord());
         entry = cgt.retrieveEntry();
         assertEquals("wrong type", EntryType.UNDEFINED, entry.getType());
-        assertEquals("wrong value", "-56", entry.getValue().toString());
+        assertEquals("wrong value", "200", entry.getValue().toString());
     }
     
     /*----------------------------------------------------------------------------*/
@@ -340,7 +345,7 @@ public class CGTTest extends TestCase {
         }
         
         // Sample data
-        cgt.open(new ByteArrayInputStream(concat(HEADER, SAMPLE_BOOLEANS)));
+        cgt.open(new ByteArrayInputStream(toByteArray(HEADER, SAMPLE_BOOLEANS)));
         assertTrue(cgt.getNextRecord());
         assertEquals(true, cgt.retrieveBoolean());
         assertEquals(false, cgt.retrieveBoolean());
@@ -365,10 +370,10 @@ public class CGTTest extends TestCase {
         }
         
         // Sample data
-        cgt.open(new ByteArrayInputStream(concat(HEADER, SAMPLE_BYTES)));
+        cgt.open(new ByteArrayInputStream(toByteArray(HEADER, SAMPLE_BYTES)));
         assertTrue(cgt.getNextRecord());
         assertEquals(1, cgt.retrieveByte());
-        assertEquals(2, cgt.retrieveByte());
+        assertEquals(253, cgt.retrieveByte());
         assertEquals(3, cgt.retrieveByte());
         validateExpectEMPTY(cgt);
     }
@@ -389,10 +394,10 @@ public class CGTTest extends TestCase {
         }
         
         // Sample data
-        cgt.open(new ByteArrayInputStream(concat(HEADER, SAMPLE_UINT16S)));
+        cgt.open(new ByteArrayInputStream(toByteArray(HEADER, SAMPLE_UINT16S)));
         assertTrue(cgt.getNextRecord());
         assertEquals(1, cgt.retrieveInteger());
-        assertEquals(256, cgt.retrieveInteger());
+        assertEquals(59266, cgt.retrieveInteger());
         assertEquals(771, cgt.retrieveInteger());
         validateExpectEMPTY(cgt);
     }
@@ -413,7 +418,7 @@ public class CGTTest extends TestCase {
         }
         
         // Sample data
-        cgt.open(new ByteArrayInputStream(concat(HEADER, SAMPLE_STRINGS)));
+        cgt.open(new ByteArrayInputStream(toByteArray(HEADER, SAMPLE_STRINGS)));
         assertTrue(cgt.getNextRecord());
         assertEquals("wrong value", "Abc", cgt.retrieveString());
         assertEquals("wrong value", "D\u0117F", cgt.retrieveString());

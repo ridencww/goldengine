@@ -68,7 +68,7 @@ public class GOLDParser extends Parser {
             if (ruleHandlers.size() == 0) {
                 throw new IllegalStateException(FormatHelper.formatMessage("messages", "error.handlers_none", rulesPackage));
             }
-        } catch (Exception e) {
+        } catch (Exception e) { 
             addErrorMessage(FormatHelper.formatMessage("messages", "error.table_unloadable", e.getMessage()));
         }
     }

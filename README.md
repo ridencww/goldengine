@@ -57,7 +57,7 @@ If you're using Maven, add the following to your project's pom.xml:
     <dependency>
       <groupId>com.creativewidgetworks</groupId>
       <artifactId>goldengine</artifactId>
-      <version>5.0.0</version>
+      <version>5.0.1</version>
     </dependency>
 
 The goldengine artifacts are available for download at the Maven Central repository.
@@ -94,6 +94,12 @@ The Simple2/Simple3 interpreter can also be accessed without extracting the file
     java -classpath goldengine.jar com.creativewidgetworks.goldparser.simple3.Simple3 Functions.txt
     java -classpath goldengine.jar com.creativewidgetworks.goldparser.simple3.Simple3 Functions.txt -tree 
     
+## Version History
+
+ - 5.0.0 Initial release for GOLD Builder 5.0
+ - 5.0.1 Fixed error loading larger grammar files
+
+    
 ## License
 
 goldengine for Java is licensed under the [Modified BSD][4] license. Permission is granted to anyone to use this software for any purpose, including commercial applications.
@@ -102,6 +108,6 @@ Enjoy.
 
 
   [1]: http://goldparser.org
-  [2]: https://github.com/downloads/ridencww/goldengine/goldengine-5_0_0.jar
-  [3]: https://github.com/downloads/ridencww/goldengine/goldengine-engine-only-5_0_0.jar
+  [2]: https://github.com/downloads/ridencww/goldengine/goldengine-5_0_1.jar
+  [3]: https://github.com/downloads/ridencww/goldengine/goldengine-engine-only-5_0_1.jar
   [4]: http://www.opensource.org/licenses/BSD-3-Clause
