@@ -20,6 +20,8 @@ public class Token extends Symbol {
     private int state;
     private Object data;
     private Position position;
+    
+    private StringBuilder text;
 
     public Token() {
         super();
@@ -40,15 +42,16 @@ public class Token extends Symbol {
         this.name = symbol.name;
         this.type = symbol.type;
         this.tableIndex = symbol.tableIndex;
+        if (data != null) {
+            appendData(data.toString());
+        }
     }
 
     public void appendData(String moreData) {
-        if (this.data == null || this.data instanceof String) {
-            if (this.data == null) {
-                this.data = "";
-            }
-            this.data = this.data.toString() + moreData;
+        if (text == null) {
+            text = new StringBuilder();
         }
+        text.append(moreData);
     }
     
     public Reduction asReduction() {
@@ -56,7 +59,7 @@ public class Token extends Symbol {
     }
     
     public String asString() {
-        return data == null ? "" : data.toString();    
+        return text != null ? text.toString() : data == null ? "" : data.toString();    
     }
     
     public int getState() {

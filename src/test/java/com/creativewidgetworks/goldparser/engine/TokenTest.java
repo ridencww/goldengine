@@ -68,14 +68,14 @@ public class TokenTest {
         // Appending null adds "null" to end for diagnostics
         Token token = new Token(new Symbol(), "1234");
         token.appendData(null);
-        assertEquals("wrong text", "1234null", token.getData().toString());
+        assertEquals("wrong text", "1234null", token.asString());
 
-        // Appending data to null data creates a String object
+        // Appending data to null text creates a String object
         token = new Token();
         token.appendData("1234");
-        assertEquals("wrong text", "1234", token.getData().toString());
+        assertEquals("wrong text", "1234", token.asString());
         
-        // Appending data to a Reduction does nothing
+        // Appending data to a Reduction does nothing to the reduction
         Reduction reduction = new Reduction();
         token = new Token();
         token.setData(reduction);
@@ -84,9 +84,9 @@ public class TokenTest {
         
         // Normal data appending
         token = new Token(new Symbol(), "1234");
-        assertEquals("wrong text", "1234", token.getData().toString());
+        assertEquals("wrong text", "1234", token.asString());
         token.appendData("5678");
-        assertEquals("wrong text", "12345678", token.getData().toString());        
+        assertEquals("wrong text", "12345678", token.asString());        
     }
 
     /*----------------------------------------------------------------------------*/

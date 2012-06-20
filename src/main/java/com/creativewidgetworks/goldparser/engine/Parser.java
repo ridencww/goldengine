@@ -871,6 +871,13 @@ public class Parser {
             // Logic chain
             if (nestGroup) {
                 consumeBuffer(read.asString().length());
+                
+                // fix up the comment block
+                if (read.getData() != null) {
+                    read.appendData(read.getData().toString());
+                    read.setData(null);
+                }
+                
                 groupStack.push(read);                
             } else if (groupStack.size() == 0) {
                 // The token is ready to be analyzed

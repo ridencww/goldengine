@@ -94,8 +94,9 @@ The Simple2/Simple3 interpreter can also be accessed without extracting the file
     
 ## Version History
 
- - 5.0.0 Initial release for GOLD Builder 5.0
+ - 5.0.2 Fixed Token.appendData() performance issue
  - 5.0.1 Fixed error loading larger grammar files
+ - 5.0.0 Initial release for GOLD Builder 5.0
 
     
 ## License
