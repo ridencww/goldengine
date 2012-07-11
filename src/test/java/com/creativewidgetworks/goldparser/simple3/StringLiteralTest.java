@@ -98,9 +98,9 @@ public class StringLiteralTest extends GOLDParserTestCase {
 
         // basic reporting
         String[] actual = executeProgram(sourceCode1);
-        validateLines(makeExpected("Lexical error at line 1, column 1. Read (Error)"), actual);
+        validateLines(makeExpected("Lexical error at line 1, column 5. Read (Error)"), actual);
         actual = executeProgram(sourceCode2);
-        validateLines(makeExpected("Lexical error at line 1, column 1. Read (Error)"), actual);
+        validateLines(makeExpected("Lexical error at line 1, column 5. Read (Error)"), actual);
     }
 
 }

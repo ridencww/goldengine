@@ -56,4 +56,10 @@ public class Position {
     public String getLineAsString() {
         return String.valueOf(line);
     }
+    
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(" [").append(getLineAsString()).append(",").append(getColumnAsString()).append("]");
+        return sb.toString();
+    }
 }

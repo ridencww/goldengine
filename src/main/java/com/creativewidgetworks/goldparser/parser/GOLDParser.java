@@ -11,10 +11,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 import java.util.TreeMap;
 
 import com.creativewidgetworks.goldparser.engine.Parser;
 import com.creativewidgetworks.goldparser.engine.ParserException;
+import com.creativewidgetworks.goldparser.engine.Position;
 import com.creativewidgetworks.goldparser.engine.Production;
 import com.creativewidgetworks.goldparser.engine.Reduction;
 import com.creativewidgetworks.goldparser.engine.Token;
@@ -37,7 +39,10 @@ import com.creativewidgetworks.goldparser.util.ResourceHelper;
  * @version 5.0.0 
  */
 public class GOLDParser extends Parser {
-
+    // Virtual terminal constants
+    public static final String VT_INDENT_DECREASE = "IndentDecrease";
+    public static final String VT_INDENT_INCREASE = "IndentIncrease";
+    
     private Map<String, Class> ruleHandlers = new TreeMap<String, Class>();
 
     private boolean ignoreCase;
@@ -49,6 +54,12 @@ public class GOLDParser extends Parser {
     
     private Scope currentScope;
     private Map<String, Scope> scopes;
+    
+    // Indentation-sensitive support
+    private boolean useIndentVirtualTerminals;
+    private int ivtLine;
+    private Stack<Token> ivtTokens = new Stack<Token>();
+    private Stack<Position> ivtIndentLevels = new Stack<Position>();
     
     /*----------------------------------------------------------------------------*/
 
@@ -304,6 +315,9 @@ public class GOLDParser extends Parser {
         
         getErrorMessages().clear();
         
+        // Enable support for indentation sensitive grammars
+        useIndentVirtualTerminals = getSymbolByName(VT_INDENT_INCREASE) != null;
+        
         open(sourceReader);
         
         boolean done = false;
@@ -538,6 +552,76 @@ public class GOLDParser extends Parser {
         }
 
         return reduction;
+    }
+    
+    /*----------------------------------------------------------------------------*/
+    
+    /**
+     * Helper function to return the current ident virtual token index levels.  This
+     * method supports the ability indent location values for languages like Python
+     * where indent levels must match.
+     */
+    private String getIndentLevels() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = ivtIndentLevels.size() - 1; i >= 0; i--) {
+            if (sb.length() > 0) {
+                sb.append(",");
+            }
+            sb.append(ivtIndentLevels.get(i).getColumnAsString());
+        }
+        return sb.toString();
+    }
+    
+    /**
+     * Return next token - insert IndentIncrease/IndentDecrease tokens as needed to support
+     * grammars where indentation is important (e.g. Python, etc.)
+     * @return Token
+     */
+    @Override
+    protected Token nextToken() {
+        Token token;
+
+        // Indent virtual terminals
+        if (useIndentVirtualTerminals) {
+            if (ivtTokens.isEmpty()) {
+                // Get next token from stream
+                token = produceToken();
+                
+                // Token's position in source - initialize indentLevel stack
+                Position position = token.getPosition();
+                if (ivtIndentLevels.isEmpty()) {
+                    ivtLine = position.getLine();
+                    ivtIndentLevels.push(position);
+                }
+                
+                // Trigger on change of line number
+                if (position.getLine() != ivtLine) {
+                    ivtLine = position.getLine();
+                    int ivtColumn = ivtIndentLevels.peek().getColumn();
+                    if (position.getColumn() > ivtColumn) {
+                        ivtTokens.push(token);
+                        ivtIndentLevels.push(position);
+                        token = new Token(getSymbolByName(VT_INDENT_INCREASE), getIndentLevels(), position);
+                    } else if (token.getPosition().getColumn() < ivtColumn) {
+                        ivtTokens.push(token);
+                        while (!ivtIndentLevels.isEmpty() && ivtIndentLevels.peek().getColumn() > position.getColumn()) {
+                            ivtIndentLevels.pop();
+                            ivtTokens.push(new Token(getSymbolByName(VT_INDENT_DECREASE), getIndentLevels(), position));
+                        }
+                        token = ivtTokens.pop();
+                    }
+                }
+                
+            } else {
+                // Return token pushed on the stack because of insertion of IndentIncrease/IndentDecrease insertion
+                token = ivtTokens.pop();
+            }
+        } else {
+            // Not an indentation sensitive grammar, just get the next token from the stream
+            token = produceToken();
+        }
+            
+        return token;
     }
     
 }

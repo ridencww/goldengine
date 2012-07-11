@@ -25,7 +25,7 @@ import com.creativewidgetworks.goldparser.engine.enums.ParseMessage;
 
 public class ParserTest extends TestCase {
 
-    public static final String ABOUT_TEXT = "GOLD Parser Engine - Version 5.0";
+    public static final String ABOUT_TEXT = "GOLD Parser Engine - Version 5.0.3";
     public static final String GENERATED_BY = "GOLD Parser Builder 5.0 RC";
     public static final String GENERATED_ON = "2011-05-29 04:00";
     

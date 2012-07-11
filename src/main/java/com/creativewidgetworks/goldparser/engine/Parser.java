@@ -66,7 +66,7 @@ public class Parser {
     public static final String VERSION           = "Version";
    
     public static final String PARSER_NAME = "GOLD Parser Engine - Version ";
-    public static final String PARSER_VERSION = "5.0";
+    public static final String PARSER_VERSION = "5.0.3";
 
     // Flag to indicate which grammar table file is being processed
     protected boolean version1Format;
@@ -136,10 +136,10 @@ public class Parser {
     private void consumeBuffer(int count) {
         if (count > 0 && count <= lookaheadBuffer.length()) {
             // Adjust position
-            for (int i = 0; i < count - 1; i++) {
+            for (int i = 0; i < count; i++) {
                 char c = lookaheadBuffer.charAt(i);
                 if (c == 0x0A) {
-                    if (sysPosition.getColumn() > 0) {
+                    if (sysPosition.getColumn() > 1) {
                         // Increment row if Unix EOLN (LF)
                         sysPosition.incrementLine();
                     }
@@ -231,6 +231,24 @@ public class Parser {
         for (Symbol symbol : symbolTable) {
             if (symbol.getType().equals(type)) {
                 return symbol;
+            }
+        }
+        return null;
+    }
+
+    /*----------------------------------------------------------------------------*/
+    
+    /**
+     * Searches the symbol table for a specific symbol specified by the symbol name.
+     * @param name of symbol to find
+     * @return Symbol, the symbol or null if no symbol found
+     */
+    protected Symbol getSymbolByName(String name) {
+        if (symbolTable != null) {
+            for (Symbol symbol : symbolTable) {
+                if (symbol.getName().equals(name)) {
+                    return symbol;
+                }
             }
         }
         return null;
@@ -643,6 +661,14 @@ public class Parser {
     /*----------------------------------------------------------------------------*/
 
     /**
+     * Returns the next token in the stream -- This method can be overridden to support
+     * virtual terminals (indentation sensitive grammars, etc.)
+     */
+    protected Token nextToken() {
+        return produceToken();
+    }
+    
+    /**
      * Performs a parse action on the input stream. This method is typically used in a loop until 
      * either the grammar is accepted or an error occurs.
      * @return ParseMessage
@@ -659,7 +685,7 @@ public class Parser {
         boolean done = false;
         while (!done) {
             if (inputTokens.size() == 0) {
-                read = produceToken();
+                read = nextToken();
                 inputTokens.push(read);
                 
                 // Handle the case where an unterminated comment block consumes the entire program
@@ -844,7 +870,7 @@ public class Parser {
      * allows the group text to returned in one chunk.
      * @return Token
      */
-    private Token produceToken() {
+    protected Token produceToken() {
         Token token = null;
 
         boolean nestGroup = false;

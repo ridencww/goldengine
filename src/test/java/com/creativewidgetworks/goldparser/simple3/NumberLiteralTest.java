@@ -107,7 +107,7 @@ public class NumberLiteralTest extends GOLDParserTestCase {
 
         // Not a number
         actual = executeProgram(parser, sourceCode3);
-        validateLines(makeExpected("Lexical error at line 1, column 1. Read (Error)"), actual);
+        validateLines(makeExpected("Lexical error at line 1, column 6. Read (Error)"), actual);
     }
 
 }

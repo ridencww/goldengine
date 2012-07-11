@@ -35,18 +35,23 @@ public class Token extends Symbol {
     public Token(Object data) {
         this(new Symbol(data == null ? "" : data.toString(), SymbolType.CONTENT, 0), data);
     }
-    
+
     public Token(Symbol symbol, Object data) {
+        this(symbol, data, null);
+    }
+    
+    public Token(Symbol symbol, Object data, Position position) {
         this();
         this.data = data;
         this.name = symbol.name;
         this.type = symbol.type;
         this.tableIndex = symbol.tableIndex;
+        this.position = position;
         if (data != null) {
             appendData(data.toString());
         }
     }
-
+    
     public void appendData(String moreData) {
         if (text == null) {
             text = new StringBuilder();
