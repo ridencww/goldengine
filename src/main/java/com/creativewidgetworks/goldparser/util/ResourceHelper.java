@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -37,11 +38,12 @@ public class ResourceHelper {
         Enumeration<URL> resources = classLoader.getResources(packageName.replace('.', '/'));
         while (resources.hasMoreElements()) {
             URL resource = resources.nextElement();
-            jarFile = getJarFile(resource.toString());
+            String path = URLDecoder.decode(resource.getFile(), "UTF-8");
+            jarFile = getJarFile(path);
             if (jarFile != null) {                
                 break;
             }
-            dirs.add(new File(resource.getFile()));
+            dirs.add(new File(path));
         }
         
         ArrayList<Class> classes = new ArrayList<Class>();

@@ -94,6 +94,8 @@ The Simple2/Simple3 interpreter can also be accessed without extracting the file
     
 ## Version History
 
+ - 5.0.3-SNAPSHOT 
+ -- Added support for virtual terminals including IndentIncrease / IndentDecrease to support grammars like Python where indentation marks blocks. Fixed issue with incorrect column number reporting. Fixed issue with spaces and other special characters in ReflectionHelper (a big thank you to **nimatrueway** for not only identifying the problem, but also providing a clean solution to the issue).
  - 5.0.2 Fixed Token.appendData() performance issue
  - 5.0.1 Fixed error loading larger grammar files
  - 5.0.0 Initial release for GOLD Builder 5.0
@@ -107,6 +109,6 @@ Enjoy.
 
 
   [1]: http://goldparser.org
-  [2]: https://github.com/downloads/ridencww/goldengine/goldengine-5_0_1.jar
-  [3]: https://github.com/downloads/ridencww/goldengine/goldengine-engine-only-5_0_1.jar
+  [2]: https://github.com/downloads/ridencww/goldengine/goldengine-5_0_3-SNAPSHOT.jar
+  [3]: https://github.com/downloads/ridencww/goldengine/goldengine-engine-only-5_0_3-SNAPSHOT.jar
   [4]: http://www.opensource.org/licenses/BSD-3-Clause
