@@ -103,12 +103,11 @@ The Simple2/Simple3 interpreter can also be accessed without extracting the file
     
 ## License
 
-goldengine for Java is licensed under the [Modified BSD][4] license. Permission is granted to anyone to use this software for any purpose, including commercial applications.
+goldengine for Java is licensed under the [Modified BSD][3] license. Permission is granted to anyone to use this software for any purpose, including commercial applications.
 
 Enjoy.
 
 
   [1]: http://goldparser.org
-  [2]: https://github.com/downloads/ridencww/goldengine/goldengine-5_0_3-SNAPSHOT.jar
-  [3]: https://github.com/downloads/ridencww/goldengine/goldengine-engine-only-5_0_3-SNAPSHOT.jar
-  [4]: http://www.opensource.org/licenses/BSD-3-Clause
+  [2]: https://creativewidgetworks.com/public/files/goldengine/goldengine-5_0_3-SNAPSHOT.jar
+  [3]: http://www.opensource.org/licenses/BSD-3-Clause
