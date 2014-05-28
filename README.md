@@ -94,7 +94,7 @@ The Simple2/Simple3 interpreter can also be accessed without extracting the file
     
 ## Version History
 
- - 5.0.3-SNAPSHOT 
+ - 5.0.3 
  -- Added support for virtual terminals including IndentIncrease / IndentDecrease to support grammars like Python where indentation marks blocks. Fixed issue with incorrect column number reporting. Fixed issue with spaces and other special characters in ReflectionHelper (a big thank you to **nimatrueway** for not only identifying the problem, but also providing a clean solution to the issue).
  - 5.0.2 Fixed Token.appendData() performance issue
  - 5.0.1 Fixed error loading larger grammar files

@@ -441,6 +441,9 @@ public class Parser {
                         groupTable.set(index, group);
                         break;
                         
+                    case GROUPNESTING:
+                        break;
+        
                     case DFASTATE:
                         index = cgt.retrieveInteger();
                         boolean accept = cgt.retrieveBoolean();

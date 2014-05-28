@@ -266,31 +266,40 @@ public class ParserTest extends TestCase {
             assertEquals("row " + i + ": handle vals", expected[i][3], handleVals(production.getHandle()));
         }
         
+        // Note that this validator does not assert the contents of the Character Sets, FA states, and LR states 
+        // lists because of the large amount of data that would have to be asserted.  As the test is designed to test
+        // the parser and not the CGT/EGT file generator (GOLD Builder), a quick smoke test of the size of the tables
+        // is probably sufficient.  Naturally, if and when this assumption is proven wrong, a complete assertion of 
+        // the tables will be made.
+        
         // CharacterSet
         CharacterSetList sets = parser.getCharacterSetList();
         assertNotNull("expected character sets");
         assertEquals("wrong set size", 53, sets.size());
-        // TODO - assert rows           
         
         // DFA
         FAStateList faStates = parser.getFAStates();
         assertNotNull("expected FA states");
         assertEquals("wrong FA states size", 70, faStates.size());
-        // TODO - assert rows        
         
         // LR states
         LRStateList lrStates = parser.getLRStates();
         assertNotNull("expected LR states");
         assertEquals("wrong LR states size", 59, lrStates.size());
-        // TODO - assert rows
 
         // Groups
         GroupList groups = parser.getGroups();
         assertNotNull("expected groups", groups);
+        assertEquals("wrong groups size", 2, groups.size());
         
-        // TODO
-        // will be null for 1.0 and 0 for 5.0
-        //assertEquals("wrong groups size", 0, groups.size());
+        // This is not pretty, but EGT format returns the groups in a different order than CGT
+        if (groups.get(0).getName().equalsIgnoreCase("comment line")) {
+            assertEquals("wrong group name", "Comment Line", groups.get(0).getName());
+            assertEquals("wrong group name", "Comment Block", groups.get(1).getName());
+        } else {
+            assertEquals("wrong group name", "Comment Block", groups.get(0).getName());
+            assertEquals("wrong group name", "Comment Line", groups.get(1).getName());
+        }
     }
 
     /*----------------------------------------------------------------------------*/
