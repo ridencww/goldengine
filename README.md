@@ -109,5 +109,5 @@ Enjoy.
 
 
   [1]: http://goldparser.org
-  [2]: https://creativewidgetworks.com/public/files/goldengine/goldengine-5_0_3-SNAPSHOT.jar
+  [2]: https://creativewidgetworks.com/public/files/goldengine/goldengine-5_0_3.jar
   [3]: http://www.opensource.org/licenses/BSD-3-Clause
