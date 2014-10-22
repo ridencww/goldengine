@@ -108,9 +108,15 @@ public class Symbol {
         } else if (source.equals("'")) {
             return "''";
         } else {
-            for (int i = 0; !forceDelimiter && i < source.length(); i++) {
-                char c = source.charAt(i);
-                forceDelimiter = !(Character.isLetter(c) || c == '.' || c == '_' || c == '-');
+            // Quote anything other than identifiers 
+            if (!forceDelimiter) {
+                forceDelimiter = source.length() == 0 || !Character.isLetter(source.charAt(0));
+                if (!forceDelimiter) {
+                    for (int i = 1; !forceDelimiter && i < source.length(); i++) {
+                        char c = source.charAt(i);
+                        forceDelimiter = !(Character.isLetter(c) || c == '.' || c == '_' || c == '-');
+                    }                    
+                }
             }
             return forceDelimiter ? "'" + source + "'" : source;
         }

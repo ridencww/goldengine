@@ -327,7 +327,7 @@ public class GOLDParserTest extends TestCase {
         GOLDParser parser = new GOLDParser();
         parser.setup(new File("src/test/resources/parser/Simple2.cgt"));
         assertFalse(parser.parseSourceStatements(new StringReader("Display hello world")));
-        assertEquals("wrong msg", "Syntax error at line 1, column 15. " + "Read Id, expecting (EOF) - '&' ')' '*' '/' '+' '<' '<=' '<>' '==' '>' '>=' "
+        assertEquals("wrong msg", "Syntax error at line 1, column 15. " + "Read Id, expecting (EOF) '-' '&' ')' '*' '/' '+' '<' '<=' '<>' '==' '>' '>=' "
                 + "assign display do else end if read then while", parser.getErrorMessage());
 
         assertFalse(parser.parseSourceStatements(new StringReader("")));

@@ -116,4 +116,21 @@ public class SymbolTest extends TestCase {
         assertEquals("wrong text", "'Symbol*Name'", symbol.toString(false));        
     }
 
+    /*----------------------------------------------------------------------------*/
+
+    @Test
+    public void testToStringNotEscapingStandaloneSymbolsThatCouldBeInName() {
+        Symbol symbol = new Symbol(".", SymbolType.CONTENT, 1);
+        assertEquals("wrong text", "'.'", symbol.toString(true));
+        assertEquals("wrong text", "'.'", symbol.toString(false));
+
+        symbol = new Symbol("-", SymbolType.CONTENT, 1);
+        assertEquals("wrong text", "'-'", symbol.toString(true));
+        assertEquals("wrong text", "'-'", symbol.toString(false));
+        
+        symbol = new Symbol("_", SymbolType.CONTENT, 1);
+        assertEquals("wrong text", "'_'", symbol.toString(true));
+        assertEquals("wrong text", "'_'", symbol.toString(false));
+    }    
+    
 }

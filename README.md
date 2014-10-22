@@ -94,6 +94,8 @@ The Simple2/Simple3 interpreter can also be accessed without extracting the file
     
 ## Version History
 
+ - 5.0.4 
+ -- Fixed issue with Symbol.literalFormat() that didn't handle non-identifiers correctly resulting in unquoted minus symbol. This also fixed potential issue with "." and "_" as well.
  - 5.0.3 
  -- Added support for virtual terminals including IndentIncrease / IndentDecrease to support grammars like Python where indentation marks blocks. Fixed issue with incorrect column number reporting. Fixed issue with spaces and other special characters in ReflectionHelper (a big thank you to **nimatrueway** for not only identifying the problem, but also providing a clean solution to the issue).
  - 5.0.2 Fixed Token.appendData() performance issue
@@ -109,5 +111,5 @@ Enjoy.
 
 
   [1]: http://goldparser.org
-  [2]: https://creativewidgetworks.com/public/files/goldengine/goldengine-5_0_3.jar
+  [2]: https://creativewidgetworks.com/public/files/goldengine/goldengine-5_0_4.jar
   [3]: http://www.opensource.org/licenses/BSD-3-Clause
