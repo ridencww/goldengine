@@ -1,7 +1,8 @@
 package com.creativewidgetworks.goldparser.engine;
 
+import static com.creativewidgetworks.goldparser.util.FileHelper.toInputStream;
+
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -293,7 +294,7 @@ public class Parser {
         if (file == null) {
             throw new IOException(FormatHelper.formatMessage("messages", "error.cgt_missing"));
         }
-        return loadTables(new FileInputStream(file));
+        return loadTables(toInputStream(file));
     }
 
     /**
