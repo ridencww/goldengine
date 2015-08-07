@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?eclipse.ant.import?>
-
 <project basedir="." default="build" name="GOLDEngine">
+    <import file="user-properties.xml" />
+
     <property environment="env"/>
     <property name="junit.output.dir" value="junit"/>
     <property name="debuglevel" value="source,lines,vars"/>
@@ -14,18 +15,12 @@
         <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
     </tstamp>
 
-    <!-- Update this value to point your browser of choice (used by junitreport target) -->
-    <property name="browser" location="C:/Program Files (x86)/Mozilla Firefox/firefox.exe"/>
-    
-    <!-- Update this value to point your Eclipse directory -->
-    <property name="ECLIPSE_HOME" value="C:/tools/erm/eclipse"/>
-    
     <!-- Update this value to match the parser version -->
     <property name="version" value="5.0.0"/>
-    
+
     <path id="JUnit 4.libraryclasspath">
-        <pathelement location="${ECLIPSE_HOME}/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar"/>
-        <pathelement location="${ECLIPSE_HOME}/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar"/>
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${hamcrest-library.jar}"/>
     </path>
 
     <path id="GOLDEngine.classpath">
