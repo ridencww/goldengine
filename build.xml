@@ -39,7 +39,7 @@
         <mkdir dir="${dist}"/>
     </target>
 
-    <target depends="engine-with-examples" name="build"/>
+    <target depends="engine-only" name="build"/>
 
     <target depends="init" name="copy-resources">
         <copy file="src/main/resources/messages.properties" todir="${bin}"/>    
