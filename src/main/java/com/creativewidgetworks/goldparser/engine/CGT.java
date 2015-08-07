@@ -12,8 +12,10 @@ import com.creativewidgetworks.goldparser.engine.enums.EntryType;
  *
  * Reads data from the CGT stream.
  *
- * Dependencies: 
- * @see EntryType
+ * <br>Dependencies:
+ * <ul>
+ * <li>{@link EntryType}</li>
+ * </ul>
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java
@@ -227,7 +229,7 @@ public class CGT {
     
     /**
      * Open a CGT (compiled grammar table) stream for processing
-     * @param stream to process
+     * @param input the {@link InputStream} to process
      * @throws IOException
      */    
     public void open(InputStream input) throws IOException {

@@ -9,9 +9,11 @@ import java.util.List;
  *
  * Represents a state in the Deterministic Finite Automata which is used by the tokenizer.
  *
- * Dependencies: 
- * @see FAEdge
- * @see Symbol
+ * <br>Dependencies:
+ * <ul> 
+ * <li>{@link FAEdge}</li>
+ * <li>{@link Symbol}</li>
+ * </ul>
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java

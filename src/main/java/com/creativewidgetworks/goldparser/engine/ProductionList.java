@@ -7,8 +7,10 @@ import java.util.ArrayList;
  *
  * Manages a list of Production objects.
  *
- * Dependencies: 
- * @Production
+ * <br>Dependencies:
+ * <ul> 
+ * <li>{@link Production}</li>
+ * </ul>
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java

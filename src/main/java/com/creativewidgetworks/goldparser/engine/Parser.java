@@ -30,18 +30,21 @@ import com.creativewidgetworks.goldparser.util.FormatHelper;
  * character table (used by the DFA algorithm) and all other structures and
  * methods needed to interact with the developer.
  * 
- * Dependencies: 
- * @see Group
- * @see GroupList
- * @see FStateList
- * @see LRState
- * @see Position
- * @see Production
- * @see ProductionList
- * @see Reduction
- * @see Symbol
- * @see SymbolList
- * @see Token
+ * <br>Dependencies:
+ * <ul> 
+ * <li>{@link Group}</li>
+ * <li>{@link GroupList}</li>
+ * <li>{@link LRStateList}</li>
+ * <li>{@link FAStateList}</li>
+ * <li>{@link LRState}</li>
+ * <li>{@link Position}</li>
+ * <li>{@link Production}</li>
+ * <li>{@link ProductionList}</li>
+ * <li>{@link Reduction}</li>
+ * <li>{@link Symbol}</li>
+ * <li>{@link SymbolList}</li>
+ * <li>{@link Token}</li>
+ * </ul>
  *
  * Note that several class fields are marked as protected instead of private. This was done
  * to avoid having to add getters() used only for testing.  If and when the tests are
@@ -214,7 +217,7 @@ public class Parser {
     
     /**
      * Return the list of expected symbols
-     * @Token the last token read by the parser.
+     * @return the list of expected symbols
      */
     public SymbolList getExpectedSymbols() {
         return expectedSymbols;
@@ -643,7 +646,7 @@ public class Parser {
     
     /**
      * Prepare the parser to process the source contained in the String.
-     * @param sourceStatements, the code to parse
+     * @param sourceStatements the code to parse
      * @return true if the source is ready to be parsed.
      */
     protected boolean open(String sourceStatements) {

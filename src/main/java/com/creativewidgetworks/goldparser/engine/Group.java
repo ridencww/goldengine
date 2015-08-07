@@ -10,8 +10,10 @@ import com.creativewidgetworks.goldparser.engine.enums.EndingMode;
  * Group  
  * Container for a group of symbols.
  *
- * Dependencies:
- * @see Symbol
+ * <br>Dependencies:
+ * <ul>
+ * <li>{@link Symbol}</li>
+ * </ul>
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java

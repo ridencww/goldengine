@@ -31,13 +31,15 @@ import com.creativewidgetworks.goldparser.util.ResourceHelper;
  * General purpose wrapper class used to process source input and generate
  * a parse tree.
  * 
- * Dependencies: 
- * @Parser
- * @Reduction
- * @Scope
- * @FormatHelper
- * @ResourceHelper
- *
+ * <br>Dependencies:
+ * <ul>
+ * <li>{@link Parser}</li>
+ * <li>{@link Reduction}</li>
+ * <li>{@link Scope}</li>
+ * <li>{@link FormatHelper}</li>
+ * <li>{@link ResourceHelper}</li>
+ *  </ul>
+ * 
  * @author Ralph Iden (http://www.creativewidgetworks.com)
  * @version 5.0.0 
  */
@@ -247,7 +249,7 @@ public class GOLDParser extends Parser {
      * throw ParserExceptions instead of calling this method cannot communicate the reason 
      * the exception was thrown.
      * @param msg to add to the errors list
-     * @param throwable
+     * @param cause
      * @throws ParserException 
      */
     public void raiseParserException(String msg, Throwable cause) throws ParserException {
@@ -297,9 +299,9 @@ public class GOLDParser extends Parser {
     
     /**
      * Initialize the parser engine using the specified grammar (CGT) file
-     * @param grammar file to load
+     * @param grammarFile file to load
      * @return true if grammar file was loaded
-     * @throw IOException if an invalid file was specified or the file could not be opened.
+     * @throws IOException if an invalid file was specified or the file could not be opened.
      */
     public boolean setup(File grammarFile) throws IOException {
         if (grammarFile == null) {

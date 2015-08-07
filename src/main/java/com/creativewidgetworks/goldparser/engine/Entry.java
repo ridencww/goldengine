@@ -6,8 +6,10 @@ import com.creativewidgetworks.goldparser.engine.enums.EntryType;
  * Entry  
  * Container for an entry read from a CGT stream.
  *
- * Dependencies: 
- * @see EntryType
+ * <br>Dependencies:
+ * <ul> 
+ * <li>{@link EntryType}</li>
+ * </ul>
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java

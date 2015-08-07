@@ -12,8 +12,10 @@ import com.creativewidgetworks.goldparser.util.ConsoleDriver;
  * rule processors to gather from and display data to the user via
  * the system console.
  *
- * Dependencies: 
- * @ConsoleDriver
+ * <br>Dependencies:
+ * <ul>
+ * <li>{@link ConsoleDriver}</li>
+ * </ul>
  *
  * @author Ralph Iden (http://www.creativewidgetworks.com)
  * @version 5.0.0 

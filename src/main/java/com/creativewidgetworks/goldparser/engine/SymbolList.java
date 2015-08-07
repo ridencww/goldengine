@@ -8,8 +8,10 @@ import java.util.ArrayList;
  *
  * This class manages a list of Symbols.
 
- * Dependencies: 
- * @see Symbol
+ * <br>Dependencies:
+ * <ul> 
+ * <li>{@link Symbol}</li>
+ * </ul>
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java

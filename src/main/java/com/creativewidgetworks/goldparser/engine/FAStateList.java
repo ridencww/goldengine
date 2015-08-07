@@ -7,8 +7,10 @@ import java.util.ArrayList;
  *
  * Manages a list of FAState instances. 
  *
- * Dependencies: 
- * @see Symbol
+ * <br>Dependencies:
+ * <ul>
+ * <li>{@link Symbol}</li>
+ * </ul>
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java

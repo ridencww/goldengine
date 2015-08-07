@@ -6,7 +6,7 @@ package com.creativewidgetworks.goldparser.engine;
  *
  * Represents offsets of a character range.
  *
- * Dependencies: None
+ * <br>Dependencies: None
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java
