@@ -13,9 +13,11 @@ import com.creativewidgetworks.goldparser.engine.enums.SymbolType;
  * Terminal symbols fall into several categories for use by the GOLD Parser
  * Engine which are contained in the SymbolType enumeration class.
  * 
- * Dependencies: 
- * @see SymbolType
- * @see Group
+ * <br>Dependencies:
+ * <ul> 
+ * <li>{@link SymbolType}</li>
+ * <li>{@link Group}</li>
+ * </ul>
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java

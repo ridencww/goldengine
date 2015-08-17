@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
  * Annotation definition that tags an instance of a rule handler to
  * describe which rules the class handles.
  *
- * Dependencies: None
+ * <br>Dependencies: None
  *
  * @author Ralph Iden (http://www.creativewidgetworks.com)
  * @version 5.0.0 

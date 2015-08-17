@@ -11,9 +11,11 @@ import com.creativewidgetworks.goldparser.parser.Variable;
  * a list of Tokens corresponding to the the rule it represents. This class is 
  * important since it is used to store the actual source program parsed by the Engine
 
- * Dependencies: 
- * @see Production
- * @see Token
+ * <br>Dependencies:
+ * <ul> 
+ * <li>{@link Production}</li>
+ * <li>{@link Token}</li>
+ * </ul>
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java

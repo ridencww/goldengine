@@ -9,8 +9,10 @@ import java.util.TreeMap;
  * Represents a scope of a program including variables local to the 
  * scope and the parent that contains this scope.
  *
- * Dependencies: 
- * @Variable
+ * <br>Dependencies:
+ * <ul> 
+ * <li>{@link Variable}</li>
+ * </ul>
  *
  * @author Ralph Iden (http://www.creativewidgetworks.com)
  * @version 5.0.0 

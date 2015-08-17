@@ -7,8 +7,10 @@ import java.util.ArrayList;
  *
  * Manages a list of CharacterSet objects.
  *
- * Dependencies: 
- * @CharacterSet
+ * <br>Dependencies:
+ * <ul>
+ * <li>{@link CharacterSet}</li>
+ * </ul>
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java
