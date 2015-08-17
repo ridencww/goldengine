@@ -26,7 +26,10 @@ This project uses Java 1.5+ and requires no additional libraries other than the 
 ### From pre-built binaries
 Download the pre-built jar file and include in your project's classpath.
 
-[GOLDEngine for Java jar with examples][2]
+[GOLDEngine for Java jar (engine only)][2]
+
+[GOLDEngine for Java jar with examples][4]
+
 
 ### From source
 
@@ -40,9 +43,10 @@ Build the project and create the JAR:
     ant clean build
 
     ant targets:
-       engine-only : Java engine without Simple2/Simple3 example languages
-       test        : run JUnit unit tests
-       junitreport : generate HTML report of unit test run 
+       engine-only          : Java engine without exaples
+       engine-with-examples : Java engine with Simple2/Simple3 example languages
+       test                 : run JUnit unit tests
+       junitreport          : generate HTML report of unit test run 
 
 ##### Using Maven
     mvn clean install
@@ -55,7 +59,7 @@ If you're using Maven, add the following to your project's pom.xml:
     <dependency>
       <groupId>com.creativewidgetworks</groupId>
       <artifactId>goldengine</artifactId>
-      <version>5.0.1</version>
+      <version>5.0.5</version>
     </dependency>
 
 The goldengine artifacts are available for download at the Maven Central repository.
@@ -94,6 +98,8 @@ The Simple2/Simple3 interpreter can also be accessed without extracting the file
     
 ## Version History
 
+ 
+ - 5.0.5 -- Refactor to allow creation of engine only and engine with examples jars (thanks to **vincent-vandemeulebrouck-ullink**).
  - 5.0.4 
  -- Fixed issue with Symbol.literalFormat() that didn't handle non-identifiers correctly resulting in unquoted minus symbol. This also fixed potential issue with "." and "_" as well.
  - 5.0.3 
@@ -111,5 +117,8 @@ Enjoy.
 
 
   [1]: http://goldparser.org
-  [2]: https://creativewidgetworks.com/public/files/goldengine/goldengine-5_0_4.jar
+  [2]: https://creativewidgetworks.com/public/files/goldengine/goldengine-5.0.5.jar
   [3]: http://www.opensource.org/licenses/BSD-3-Clause
+  [4]: https://creativewidgetworks.com/public/files/goldengine/goldengine-examples-5.0.5.jar
+  
+  

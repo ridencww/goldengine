@@ -7,8 +7,10 @@ import java.util.ArrayList;
  *
  * Manages a list of LRState objects.
  *
- * Dependencies: 
- * @LRState
+ * <br>Dependencies:
+ * <ul> 
+ * <li>{@link LRState}</li>
+ * </ul>
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java

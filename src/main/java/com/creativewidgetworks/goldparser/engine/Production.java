@@ -8,9 +8,11 @@ import com.creativewidgetworks.goldparser.engine.enums.SymbolType;
  * This class is used to represent the logical structures of the grammar. Productions consist
  * of a head containing a nonterminal followed by a series of both nonterminals and terminals.
  *
- * Dependencies: 
- * @see Symbol
- * @see SymbolType
+ * <br>Dependencies:
+ * <ul> 
+ * <li>{@link Symbol}</li>
+ * <li>{@link SymbolType}</li>
+ * </ul>
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java

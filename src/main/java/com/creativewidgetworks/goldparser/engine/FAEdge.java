@@ -6,7 +6,7 @@ package com.creativewidgetworks.goldparser.engine;
  * Each state in the Determinstic Finite Automata contains multiple edges which
  * link to other states in the automata.
  *
- * Dependencies: None
+ * <br>Dependencies: None
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java

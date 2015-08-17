@@ -65,7 +65,7 @@ public class ResourceHelper {
      * Scans all classes in the specified jar file which belong to the given 
      * package and its descendants.
      * 
-     * @param jar to search
+     * @param jarFile to search
      * @param packageName 
      * @return list of classes found (never null)
      * @throws ClassNotFoundException

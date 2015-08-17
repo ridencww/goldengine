@@ -8,9 +8,11 @@ import com.creativewidgetworks.goldparser.engine.enums.SymbolType;
  * While the Symbol represents a class of terminals and nonterminals, the
  * Token represents an individual piece of information.
  * 
- * Dependencies: 
- * @see Position
- * @see Symbol
+ * <br>Dependencies:
+ * <ul> 
+ * <li>{@link Position}</li>
+ * <li>{@link Symbol}</li>
+ * </ul>
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java

@@ -7,7 +7,7 @@ import com.creativewidgetworks.goldparser.util.FormatHelper;
  *
  * This class implements a GOLD Parser specific exception.
  *
- * Dependencies: None
+ * <br>Dependencies: None
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java

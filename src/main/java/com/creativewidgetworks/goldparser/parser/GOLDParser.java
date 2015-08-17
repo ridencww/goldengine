@@ -1,14 +1,17 @@
 package com.creativewidgetworks.goldparser.parser;
 
+import static com.creativewidgetworks.goldparser.util.FileHelper.toInputStream;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -28,13 +31,15 @@ import com.creativewidgetworks.goldparser.util.ResourceHelper;
  * General purpose wrapper class used to process source input and generate
  * a parse tree.
  * 
- * Dependencies: 
- * @Parser
- * @Reduction
- * @Scope
- * @FormatHelper
- * @ResourceHelper
- *
+ * <br>Dependencies:
+ * <ul>
+ * <li>{@link Parser}</li>
+ * <li>{@link Reduction}</li>
+ * <li>{@link Scope}</li>
+ * <li>{@link FormatHelper}</li>
+ * <li>{@link ResourceHelper}</li>
+ *  </ul>
+ * 
  * @author Ralph Iden (http://www.creativewidgetworks.com)
  * @version 5.0.0 
  */
@@ -64,18 +69,33 @@ public class GOLDParser extends Parser {
     /*----------------------------------------------------------------------------*/
 
     public GOLDParser() {
-        super();
-        setCurrentScope(new Scope("GLOBAL"));    
+        setCurrentScope(new Scope("GLOBAL"));
     }
-    
+
+    /*----------------------------------------------------------------------------*/
+
+    public GOLDParser(GOLDParserBuildContext context) {
+        this();
+        try {
+            loadTables(context.grammar());
+            loadRuleHandlers(context.ruleClasses());
+            setTrimReductions(context.trimReductions());
+            if (ruleHandlers.size() == 0) {
+                throw new IllegalStateException(FormatHelper.formatMessage("messages", "error.handlers_none"));
+            }
+        } catch (Exception e) {
+            addErrorMessage(FormatHelper.formatMessage("messages", "error.table_unloadable", e.getMessage()));
+        }
+    }
+
     /*----------------------------------------------------------------------------*/
 
     public GOLDParser(File cgtFile, String rulesPackage, boolean trimReductions) {
+        this();
         try {
             loadTables(cgtFile);
             loadRuleHandlers(rulesPackage);
             setTrimReductions(trimReductions);
-            setCurrentScope(new Scope("GLOBAL")); 
             if (ruleHandlers.size() == 0) {
                 throw new IllegalStateException(FormatHelper.formatMessage("messages", "error.handlers_none", rulesPackage));
             }
@@ -87,19 +107,19 @@ public class GOLDParser extends Parser {
     /*----------------------------------------------------------------------------*/
 
     public GOLDParser(InputStream cgtFile, String rulesPackage, boolean trimReductions) {
+        this();
         try {
             loadTables(cgtFile);
             loadRuleHandlers(rulesPackage);
             setTrimReductions(trimReductions);
-            setCurrentScope(new Scope("GLOBAL")); 
             if (ruleHandlers.size() == 0) {
                 throw new IllegalStateException(FormatHelper.formatMessage("messages", "error.handlers_none", rulesPackage));
             }
         } catch (Exception e) {
             addErrorMessage(FormatHelper.formatMessage("messages", "error.table_unloadable", e.getMessage()));
         }
-    }    
-    
+    }
+
     /*----------------------------------------------------------------------------*/
 
     public void clear() {
@@ -229,7 +249,7 @@ public class GOLDParser extends Parser {
      * throw ParserExceptions instead of calling this method cannot communicate the reason 
      * the exception was thrown.
      * @param msg to add to the errors list
-     * @param throwable
+     * @param cause
      * @throws ParserException 
      */
     public void raiseParserException(String msg, Throwable cause) throws ParserException {
@@ -279,9 +299,9 @@ public class GOLDParser extends Parser {
     
     /**
      * Initialize the parser engine using the specified grammar (CGT) file
-     * @param grammar file to load
+     * @param grammarFile file to load
      * @return true if grammar file was loaded
-     * @throw IOException if an invalid file was specified or the file could not be opened.
+     * @throws IOException if an invalid file was specified or the file could not be opened.
      */
     public boolean setup(File grammarFile) throws IOException {
         if (grammarFile == null) {
@@ -473,23 +493,42 @@ public class GOLDParser extends Parser {
     /*----------------------------------------------------------------------------*/
 
     public void loadRuleHandlers(String packageName) {
-        try {
-            ruleHandlers.clear();
+        loadRuleHandlers(listClassesInPackage(packageName));
+    }
 
-            List<Class> list = ResourceHelper.findClassesInPackage(packageName);
-            for (Class clazz : list) {
-                Annotation[] annotations = clazz.getAnnotations();
-                for (Annotation annotation : annotations){
-                    if (annotation instanceof ProcessRule){
-                        ProcessRule a = (ProcessRule)annotation;
-                        for (String rule : a.rule()) {
-                            ruleHandlers.put(rule, clazz);
-                        }
-                    }
-                }                
-            }
+    public void loadRuleHandlers(List<Class> ruleClasses) {
+        @SuppressWarnings("rawtypes")
+        Map<String, Class> mapRuleHandlers = mapRuleClasses(ruleClasses);
+        if (!mapRuleHandlers.isEmpty()) {
+            ruleHandlers.clear();
+            ruleHandlers.putAll(mapRuleHandlers);
+        }
+    }
+
+    protected List<Class> listClassesInPackage(String packageName) {
+        try {
+            return ResourceHelper.findClassesInPackage(packageName);
         } catch (Exception e) {
             addErrorMessage("loadRuleMappings: " + e.getMessage());
+            return Collections.<Class> emptyList();
+        }
+    }
+
+    protected Map<String, Class> mapRuleClasses(Iterable<Class> classes) {
+        try {
+            Map<String, Class> mapRuleHandlers = new HashMap<String, Class>();
+            for (Class clazz : classes) {
+                ProcessRule a = (ProcessRule) clazz.getAnnotation(ProcessRule.class);
+                if (a != null) {
+                    for (String rule : a.rule()) {
+                        mapRuleHandlers.put(rule, clazz);
+                    }
+                }
+            }
+            return mapRuleHandlers;
+        } catch (Exception e) {
+            addErrorMessage("loadRuleMappings: " + e.getMessage());
+            return Collections.emptyMap();
         }
     }
     

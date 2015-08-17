@@ -5,9 +5,11 @@ import com.creativewidgetworks.goldparser.engine.enums.LRActionType;
 /**
  * LRAction 
  *
- * Dependencies: 
- * @see LRActionType
- * @see Symbol
+ * <br>Dependencies:
+ * <ul> 
+ * <li>{@link LRActionType}</li>
+ * <li>{@link Symbol}</li>
+ * </ul>
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java

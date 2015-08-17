@@ -5,7 +5,7 @@ package com.creativewidgetworks.goldparser.engine.enums;
  *
  * LRAction type enumeration
  *
- * Dependencies: None
+ * <br>Dependencies: None
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java

@@ -9,9 +9,11 @@ import com.creativewidgetworks.goldparser.engine.enums.LRActionType;
  * This object maintains a list of LRAction instance and provides
  * the ability to locate a LRAction by its Symbol
  *
- * Dependencies: 
- * @LRAction
- * @Symbol
+ * <br>Dependencies:
+ * <ul> 
+ * <li>{@link LRAction}</li>
+ * <li>{@link Symbol}</li>
+ * </ul>
  *
  * @author Devin Cook (http://www.DevinCook.com/GOLDParser)
  * @author Ralph Iden (http://www.creativewidgetworks.com), port to Java

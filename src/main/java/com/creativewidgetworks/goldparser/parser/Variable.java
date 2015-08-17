@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  * Represents a program variable or interim result. Methods are provided to return the
  * variable as a specified object to avoid external casting.
  *
- * Dependencies: None
+ * <br>Dependencies: None
  *
  * @author Ralph Iden (http://www.creativewidgetworks.com)
  * @version 5.0.0 
