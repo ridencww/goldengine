@@ -1,22 +1,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  
-  <modelVersion>4.0.0</modelVersion>
 
+  <modelVersion>4.0.0</modelVersion>
+  
   <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>7</version>
+    <groupId>com.creativewidgetworks</groupId>
+    <artifactId>goldengine-parent</artifactId>
+    <version>5.0.6-SNAPSHOT</version>
   </parent>
 
   <groupId>com.creativewidgetworks</groupId>
-  <artifactId>goldengine-parent</artifactId>
-  <version>5.0.6-SNAPSHOT</version>
+  <artifactId>goldengine</artifactId>
   
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
 
-  <name>GOLDEngine parent</name>
-  <description>Java implementation of Devin Cook's GOLD Parser engine</description>
+  <name>GOLDEngine engine</name>
+  <description>GOLD Java engine</description>
   
   <url>https://github.com/ridencww/goldengine</url>
 
@@ -43,29 +42,20 @@
       </roles>
     </developer>
   </developers>  
-
-  <modules>
-    <module>engine</module>
-    <module>simple2</module>
-    <module>simple3</module>
-    <module>simplepy</module>
-  </modules>
+ 
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-library</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
   
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.8.2</version>
-      </dependency>
-      <dependency>
-        <groupId>org.hamcrest</groupId>
-        <artifactId>hamcrest-library</artifactId>
-        <version>1.1</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-    
   <profiles>
     <profile>
       <build>

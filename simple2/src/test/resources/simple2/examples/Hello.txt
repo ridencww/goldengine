@@ -1,0 +1,2 @@
+Display 'What is your name? ' Read Name
+Display 'Hello, ' & Name & '. Have a nice day!'
