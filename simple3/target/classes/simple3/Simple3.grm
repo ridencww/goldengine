@@ -1,0 +1,80 @@
+"Name"    = 'Simple'
+"Author"  = 'Devin Cook, Dave Dolan, Ralph Iden (comment support and fixed loop/while)'
+"Version" = '3.1' 
+"About"   = 'This is a very simple grammar designed for use in examples'
+
+"Case Sensitive" = False 
+"Start Symbol"   = <Statements>
+
+{String Ch 1} = {Printable} - ['']
+{String Ch 2} = {Printable} - ["]
+
+Id            = {Letter}{AlphaNumeric}*
+
+! String allows either single or double quotes
+
+StringLiteral = ''   {String Ch 1}* ''
+              | '"'  {String Ch 2}* '"'
+
+NumberLiteral = {Digit}+('.'{Digit}+)?
+
+Comment Start = '/*'
+Comment End   = '*/'
+Comment Line  = '//'
+
+<Statements> ::= <StatementOrBlock> <Statements>
+               | <StatementOrBlock> 
+
+<StatementOrBlock> ::= <Statement>
+               | begin <Statements> end 
+
+<Statement>  ::= print <Expression> 
+               | print <Expression> read ID  
+               | ID '=' <Expression> 
+               | loop <Statements> until <Expression> 
+               | for '(' <Statement> ';' <Expression> ';' <Statement> ')' do <Statements> end
+               | while <Expression> do <Statements> end
+               | if <Expression> then <Statements> end
+               | if <Expression> then <Statements> else <Statements> end
+               | function ID '(' <OptionalParamList> ')' begin <Statements> end
+               | return <Expression>              
+
+<OptionalParamList> ::= <ParamList>
+                      |
+
+<ParamList> ::= ID ',' <ParamList>
+              | ID
+
+<Expression>   ::= <Expression> '>'  <Add Exp> 
+                 | <Expression> '<'  <Add Exp> 
+                 | <Expression> '<=' <Add Exp> 
+                 | <Expression> '>=' <Add Exp>
+                 | <Expression> '==' <Add Exp>
+                 | <Expression> '<>' <Add Exp>
+                 | <Add Exp> 
+
+<Add Exp>      ::= <Add Exp> '+' <Mult Exp>
+                 | <Add Exp> '-' <Mult Exp>
+                 | <Add Exp> '&' <Mult Exp>
+                 | <Mult Exp> 
+
+<Mult Exp>    ::= <Mult Exp> '*' <Negate Exp> 
+                | <Mult Exp> '/' <Negate Exp> 
+                | <Negate Exp> 
+
+<Negate Exp>  ::= '-' <Value> 
+                | <Value> 
+
+<Value>       ::= ID           
+                | StringLiteral
+                | NumberLiteral                
+                | ID '(' <OptionalArgumentList> ')'
+                | '(' <Expression> ')'
+               
+<OptionalArgumentList> ::= <ArgumentList>
+                |
+
+<ArgumentList> ::= <Expression> ',' <ArgumentList>
+                | <Expression>
+
+

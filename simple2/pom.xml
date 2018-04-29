@@ -1,0 +1,117 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>com.creativewidgetworks</groupId>
+    <artifactId>goldengine-parent</artifactId>
+    <version>5.0.6-SNAPSHOT</version>
+  </parent>
+  
+  <groupId>com.creativewidgetworks</groupId>
+  <artifactId>simple2</artifactId>
+  
+  <packaging>jar</packaging>
+
+  <name>GOLDEngine Simple2</name>
+
+  <description>Simple2 language demo</description>
+  
+  <url>https://github.com/ridencww/goldengine</url>
+
+  <licenses>
+    <license>
+      <name>Modified BSD</name>
+      <url>http://www.opensource.org/licenses/BSD-3-Clause</url>
+    </license>
+  </licenses>  
+  
+  <scm>
+    <connection>scm:git:git@github.com:ridencww/goldengine.git</connection>
+    <developerConnection>scm:git:git@github.com:ridencww/goldengine.git</developerConnection>
+    <url>git@github.com:ridencww/goldengine.git</url>
+  </scm>  
+
+  <developers>
+    <developer>
+      <id>riden</id>
+      <name>Ralph Iden</name>
+      <email>riden@creativewidgetworks.com</email>
+      <timezone>GMT-6</timezone>
+      <roles>
+      </roles>
+    </developer>
+  </developers>  
+ 
+  <dependencies>
+    <dependency>
+      <groupId>com.creativewidgetworks</groupId>
+      <artifactId>goldengine</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-library</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  
+ 	<build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>com.creativewidgetworks.goldparser.simple2.Simple2</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>            
+      </plugin>
+      <plugin>
+        <groupId>com.coderplus.maven.plugins</groupId>
+        <artifactId>copy-rename-maven-plugin</artifactId>
+        <version>1.0.1</version>
+        <executions>
+          <execution>
+            <id>rename-file</id>
+            <phase>install</phase>
+            <goals>
+              <goal>rename</goal>
+            </goals>
+            <configuration>
+              <sourceFile>${project.basedir}/target/simple2-${project.version}-jar-with-dependencies.jar</sourceFile>
+              <destinationFile>${project.basedir}/target/simple2.jar</destinationFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+	</build>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.target>1.5</maven.compiler.target>
+    <maven.compiler.source>1.5</maven.compiler.source>
+  </properties>
+  
+</project>

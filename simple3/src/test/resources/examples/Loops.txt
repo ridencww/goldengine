@@ -1,0 +1,31 @@
+/*-----------------------------------------------------
+ * Examples of the various looping constructs available
+ * with the Simple3 interpreter
+ *---------------------------------------------------*/
+ 
+ // For loop
+ Print "An example of a FOR loop"
+ for (i = 1; i <= 5; i = i + 1) do
+   print "Testing " + i
+ end
+ 
+ print ""
+ 
+ // Loop Until
+ Print "An example of a LOOP UNTIL loop"
+ i = 1
+ loop
+   print "Testing " + i
+   i = i + 1
+ until i == 6
+ 
+ print ""
+ 
+ // While loop (also available with Simple2)
+ Print "An example of a WHILE loop"
+ i = 1
+ while i < 6 do
+   print "Testing " + i
+   i = i + 1
+ end
+ 

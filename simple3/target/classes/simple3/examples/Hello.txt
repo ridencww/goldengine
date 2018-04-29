@@ -1,0 +1,2 @@
+Print 'What is your name? ' Read Name
+Print 'Hello, ' & Name & '. Have a nice day!'
