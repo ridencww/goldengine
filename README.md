@@ -34,7 +34,7 @@ Build the project and create the JAR:
 ##### Using Maven
     mvn clean install
 
-The is a Maven multi-module project. The goldengine.jar can be found in the engine/target folder and simple2.jar and simple3.jar in their repective target folders.
+The is a Maven multi-module project. The goldengine.jar can be found in the engine/target folder and simple2.jar and simple3.jar in their respective target folders.
 
 ### Maven
 
