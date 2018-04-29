@@ -1,4 +1,3 @@
-
 /bin
 /dist
 /junit
@@ -7,4 +6,4 @@
 .classpath
 .project
 /.idea
-/goldengine.iml
+/*.iml

@@ -23,14 +23,6 @@ This project uses Java 1.5+ and requires no additional libraries other than the 
 
 ## Installation
 
-### From pre-built binaries
-Download the pre-built jar file and include in your project's classpath.
-
-[GOLDEngine for Java jar (engine only)][2]
-
-[GOLDEngine for Java jar with examples][4]
-
-
 ### From source
 
 Clone the repository from Github:
@@ -39,18 +31,10 @@ Clone the repository from Github:
 
 Build the project and create the JAR:
 
-##### Using ant
-    ant clean build
-
-    ant targets:
-       engine-only          : Java engine without exaples
-       engine-with-examples : Java engine with Simple2/Simple3 example languages
-       test                 : run JUnit unit tests
-       junitreport          : generate HTML report of unit test run 
-
 ##### Using Maven
     mvn clean install
 
+The is a Maven multi-module project. The goldengine.jar can be found in the engine/target folder and simple2.jar and simple3.jar in their repective target folders.
 
 ### Maven
 
@@ -62,42 +46,25 @@ If you're using Maven, add the following to your project's pom.xml:
       <version>5.0.5</version>
     </dependency>
 
-The goldengine artifacts are available for download at the Maven Central repository.
+The goldengine engine jar is available for download at the Maven Central repository.
 
 ## Using the samples
 
-The engine jar includes two sample interpreted languages with source files that be executed from the command line. The easiest way to access these samples is to extract the files in the jar to a folder of your choice and run the examples from the command line. Windows batch files are included to get your started.
+The engine jar contains the parser and supporting classes only. The simple2.jar and simple3.jar files are "fat" jars that contain the goldengine, rule handlers for the language, a shell to execute programs written in that language, and a few example programs.
 
-Assuming that the jar was extracted to C:\gold, Windows users, use the following steps to run the sample programs:
+The shell will attempt to execute the source file specified on the command line. If the file cannot be located, the shell also looks in the /examples folder in the jar so the supplied demo programs can be executed.
 
-    rem Simple2 examples (for example, Hello.txt)
-    c:
-    cd \gold\simple2\examples
-    run Hello.txt
-    run Hello.txt -tree
-    
-    rem Simple3 examples (for example, Functions.txt)
-    c:
-    cd \gold\simple3\examples
-    run Functions.txt
-    run Functions.txt -tree
+Examples (assumes the current directory is where simple2.jar or simple3.jar is located):
 
-The Simple2/Simple3 interpreter can also be accessed without extracting the files from the jar to execute your own source files.  Assuming the jar file and the files to be interpreted are located in the C:\gold folder, the source files can be executed using the following steps:
+>java -jar simple2.jar myprogram.txt (execute program outside of jar)
 
-    rem Simple2 examples (for example, Hello.txt)
-    c:
-    cd \gold
-    java -classpath goldengine.jar com.creativewidgetworks.goldparser.simple2.Simple2 Hello.txt
-    java -classpath goldengine.jar com.creativewidgetworks.goldparser.simple2.Simple2 Hello.txt -tree
+>java -jar simple2.jar examples/Hello.txt (execute program included in jar)
 
-    rem Simple3 examples (for example, Functions.txt)
-    c:
-    cd \gold
-    java -classpath goldengine.jar com.creativewidgetworks.goldparser.simple3.Simple3 Functions.txt
-    java -classpath goldengine.jar com.creativewidgetworks.goldparser.simple3.Simple3 Functions.txt -tree 
+>java -jar simple3.jar examples/Functions.txt -tree
     
 ## Version History
 
+ - 5.0.6-SNAPSHOT -- Refactor of Maven build. Removed ant building. Other work in progress, hench the SNAPSHOT.
  
  - 5.0.5 -- Refactor to allow creation of engine only and engine with examples jars (thanks to **vincent-vandemeulebrouck-ullink**).
  - 5.0.4 
@@ -120,5 +87,4 @@ Enjoy.
   [2]: https://creativewidgetworks.com/public/files/goldengine/goldengine-5.0.5.jar
   [3]: http://www.opensource.org/licenses/BSD-3-Clause
   [4]: https://creativewidgetworks.com/public/files/goldengine/goldengine-examples-5.0.5.jar
-  
   

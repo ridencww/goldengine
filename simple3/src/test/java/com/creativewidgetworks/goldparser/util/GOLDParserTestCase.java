@@ -17,9 +17,9 @@ import com.creativewidgetworks.goldparser.engine.Symbol;
 import com.creativewidgetworks.goldparser.engine.Token;
 import com.creativewidgetworks.goldparser.engine.enums.SymbolType;
 import com.creativewidgetworks.goldparser.parser.GOLDParser;
-import com.creativewidgetworks.goldparser.simple2.rulehandlers.Id;
-import com.creativewidgetworks.goldparser.simple2.rulehandlers.NumberLiteral;
-import com.creativewidgetworks.goldparser.simple2.rulehandlers.StringLiteral;
+import com.creativewidgetworks.goldparser.simple3.rulehandlers.Id;
+import com.creativewidgetworks.goldparser.simple3.rulehandlers.NumberLiteral;
+import com.creativewidgetworks.goldparser.simple3.rulehandlers.StringLiteral;
 
 public abstract class GOLDParserTestCase extends TestCase {
 
