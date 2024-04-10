@@ -696,7 +696,11 @@ public class Parser {
                 inputTokens.push(read);
                 
                 // Handle the case where an unterminated comment block consumes the entire program
-                if (SymbolType.END.equals(read.getType()) && groupStack.size() > 0) {
+                // START KGU#1144 2024-04-10: Bugfix #28 With a line comment, we may tolerate EOF
+                //if (SymbolType.END.equals(read.getType()) && groupStack.size() > 0) {
+                if (SymbolType.END.equals(read.getType()) && groupStack.size() > 0
+                        && !(groupStack.size() == 1 && groupStack.peek().group.getEndingMode() == EndingMode.OPEN)) {
+                // END KGU#1144 2024-04-10
                     // Runaway group
                     parseMessage = ParseMessage.GROUP_ERROR;                    
                 } else {
@@ -715,7 +719,11 @@ public class Parser {
                 } else if (SymbolType.ERROR.equals(read.getType())) {
                     parseMessage = ParseMessage.LEXICAL_ERROR;
                     done = true;
-                } else if (SymbolType.END.equals(read.getType()) && groupStack.size() > 0) {
+                // START KGU#1144 2024-04-10: Bugfix #28 With a line comment, we may tolerate EOF
+                //} else if (SymbolType.END.equals(read.getType()) && groupStack.size() > 0) {
+                } else if (SymbolType.END.equals(read.getType()) && groupStack.size() > 0
+                        && !(groupStack.size() == 1 && groupStack.peek().group.getEndingMode() == EndingMode.OPEN)) {
+                // END KGU #1144 2024-04-10
                     // Runaway group
                     parseMessage = ParseMessage.GROUP_ERROR;
                     done = true;                    
