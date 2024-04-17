@@ -1,9 +1,19 @@
-/bin
-/dist
-/junit
-/target
-/.settings
-.classpath
+# Maven
+target/
+test-output/
+.repository
+
+# Eclipse
 .project
-/.idea
-/*.iml
+.classpath
+.settings/
+
+# IDEA
+.idea/
+.iml
+*.iml
+
+# SourceTree
+*.orig
+
+overlays/
