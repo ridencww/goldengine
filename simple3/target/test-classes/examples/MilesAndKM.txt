@@ -1,9 +1,0 @@
-Print 'Do you want to convert 1) Miles to Kilometers or 2) Kilometers to Miles? ' Read Choice
-
-if Choice == 1 then
-    Print 'Please enter the number of miles: ' Read Miles
-    Print Miles & ' Miles = ' & (Miles * 1.609)  & ' Kilometers'
-else
-    Print 'Please enter the number of kilometers: ' Read Kilometers
-    Print Kilometers & ' Kilometers = ' & (Kilometers / 1.609)  & ' Miles'
-end

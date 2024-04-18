@@ -1,6 +1,0 @@
-assign n = 10
-while n >= 1 do
-    display n
-    assign n = n - 1
-end
-display 'Blast off!'

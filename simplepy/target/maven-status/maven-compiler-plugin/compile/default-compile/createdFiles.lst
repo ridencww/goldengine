@@ -1,8 +1,0 @@
-com\creativewidgetworks\goldparser\simplepy\rulehandlers\Expression.class
-com\creativewidgetworks\goldparser\simplepy\rulehandlers\Print.class
-com\creativewidgetworks\goldparser\simplepy\rulehandlers\Statements.class
-com\creativewidgetworks\goldparser\simplepy\rulehandlers\NumberLiteral.class
-com\creativewidgetworks\goldparser\simplepy\rulehandlers\Parenthesis.class
-com\creativewidgetworks\goldparser\simplepy\rulehandlers\StringLiteral.class
-com\creativewidgetworks\goldparser\simplepy\Py.class
-com\creativewidgetworks\goldparser\simplepy\rulehandlers\IfThenElse.class
