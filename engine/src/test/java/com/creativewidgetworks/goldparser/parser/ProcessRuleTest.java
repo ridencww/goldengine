@@ -15,8 +15,8 @@ public class ProcessRuleTest extends TestCase {
         // Assert annotation is class based (TYPE) and available at runtime
         Annotation[] annotations = ProcessRule.class.getAnnotations();
         assertEquals("wrong number of annotations", 2, annotations.length);
-        assertEquals("bad annotation definition", "@java.lang.annotation.Retention(value=RUNTIME)", annotations[0].toString());
-        assertEquals("bad annotation definition", "@java.lang.annotation.Target(value=[TYPE])", annotations[1].toString());
+        assertEquals("bad annotation definition", "@java.lang.annotation.Retention(RUNTIME)", annotations[0].toString());
+        assertEquals("bad annotation definition", "@java.lang.annotation.Target({TYPE})", annotations[1].toString());
     }
- 
+
 }
