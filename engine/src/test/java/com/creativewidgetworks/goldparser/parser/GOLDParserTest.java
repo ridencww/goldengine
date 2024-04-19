@@ -33,7 +33,7 @@ public class GOLDParserTest extends TestCase {
     public class GOLDParserForTesting extends GOLDParser {
 
         public List<Token> tokensRead = new ArrayList<Token>();
-        
+
         public GOLDParserForTesting() {
             super();
         }
@@ -51,18 +51,18 @@ public class GOLDParserTest extends TestCase {
         public Reduction createInstance(String ruleName) throws ParserException {
             return super.createInstance(ruleName);
         }
-        
+
         @Override
         protected Token nextToken() {
             Token token = super.nextToken();
             tokensRead.add(token);
             return token;
         }
-        
+
         public List<Token> getTokensRead() {
             return tokensRead;
         }
-        
+
         public LRStateList getStates() {
             return lrStates;
         }
@@ -75,7 +75,7 @@ public class GOLDParserTest extends TestCase {
         GOLDParser parser = new GOLDParser((File)null, "com.creativewidgetworks.goldparser.simple2", true);
         assertFalse(parser.isReady());
         assertEquals("wrong msg", "Grammar table cannot be loaded and initialized. A grammar file must be specified.", parser.getErrorMessage());
-    
+
         parser = new GOLDParser((InputStream)null, "com.creativewidgetworks.goldparser.simple2", true);
         assertFalse(parser.isReady());
         assertEquals("wrong msg", "Grammar table cannot be loaded and initialized. InputStream null", parser.getErrorMessage());
@@ -101,7 +101,7 @@ public class GOLDParserTest extends TestCase {
         GOLDParser parser = new GOLDParser(new File("no_such_file"), "com.creativewidgetworks.goldparser.simple2", true);
         assertFalse(parser.isReady());
         String expected = "Grammar table cannot be loaded and initialized. ";
-        assertTrue("wrong msg, expected \"" + expected + "\", got \"" + parser.getErrorMessage() + "\"", 
+        assertTrue("wrong msg, expected \"" + expected + "\", got \"" + parser.getErrorMessage() + "\"",
                 parser.getErrorMessage().startsWith(expected));
     }
 
@@ -367,52 +367,52 @@ public class GOLDParserTest extends TestCase {
         String source = "Assign a = 1 + 2 / (3 * 4)\r\n" + "Display \"Answer: \" + a ";
 
         // This should match the output of the VB reference implementation
-        String expected = 
-            "+-<Statements> ::= <Statement> <Statements>\r\n" + 
-            "| +-<Statement> ::= assign Id '=' <Expression>\r\n" + 
-            "| | +-Assign\r\n" + "| | +-a\r\n" + "| | +-=\r\n" + 
-            "| | +-<Expression> ::= <Add Exp>\r\n" + 
-            "| | | +-<Add Exp> ::= <Add Exp> '+' <Mult Exp>\r\n" + 
-            "| | | | +-<Add Exp> ::= <Mult Exp>\r\n" + 
-            "| | | | | +-<Mult Exp> ::= <Negate Exp>\r\n" + 
-            "| | | | | | +-<Negate Exp> ::= <Value>\r\n" + 
-            "| | | | | | | +-<Value> ::= NumberLiteral\r\n" + 
-            "| | | | | | | | +-1\r\n" + 
-            "| | | | +-+\r\n" + 
-            "| | | | +-<Mult Exp> ::= <Mult Exp> '/' <Negate Exp>\r\n" + 
-            "| | | | | +-<Mult Exp> ::= <Negate Exp>\r\n" + 
-            "| | | | | | +-<Negate Exp> ::= <Value>\r\n" + 
-            "| | | | | | | +-<Value> ::= NumberLiteral\r\n" + 
-            "| | | | | | | | +-2\r\n" + "| | | | | +-/\r\n" + 
-            "| | | | | +-<Negate Exp> ::= <Value>\r\n" + 
-            "| | | | | | +-<Value> ::= '(' <Expression> ')'\r\n" + 
-            "| | | | | | | +-(\r\n" + 
-            "| | | | | | | +-<Expression> ::= <Add Exp>\r\n" + 
-            "| | | | | | | | +-<Add Exp> ::= <Mult Exp>\r\n" + 
-            "| | | | | | | | | +-<Mult Exp> ::= <Mult Exp> '*' <Negate Exp>\r\n" + 
-            "| | | | | | | | | | +-<Mult Exp> ::= <Negate Exp>\r\n" + 
-            "| | | | | | | | | | | +-<Negate Exp> ::= <Value>\r\n" + 
-            "| | | | | | | | | | | | +-<Value> ::= NumberLiteral\r\n" + 
-            "| | | | | | | | | | | | | +-3\r\n" + 
-            "| | | | | | | | | | +-*\r\n" + 
-            "| | | | | | | | | | +-<Negate Exp> ::= <Value>\r\n" + 
-            "| | | | | | | | | | | +-<Value> ::= NumberLiteral\r\n" + 
-            "| | | | | | | | | | | | +-4\r\n" + 
-            "| | | | | | | +-)\r\n" + 
-            "| +-<Statements> ::= <Statement>\r\n" + 
-            "| | +-<Statement> ::= display <Expression>\r\n" + 
-            "| | | +-Display\r\n" + 
-            "| | | +-<Expression> ::= <Add Exp>\r\n" + 
-            "| | | | +-<Add Exp> ::= <Add Exp> '+' <Mult Exp>\r\n" + 
-            "| | | | | +-<Add Exp> ::= <Mult Exp>\r\n" + 
-            "| | | | | | +-<Mult Exp> ::= <Negate Exp>\r\n" + 
-            "| | | | | | | +-<Negate Exp> ::= <Value>\r\n" + 
-            "| | | | | | | | +-<Value> ::= StringLiteral\r\n" + 
-            "| | | | | | | | | +-\"Answer: \"\r\n" + 
-            "| | | | | +-+\r\n" + 
-            "| | | | | +-<Mult Exp> ::= <Negate Exp>\r\n" + 
-            "| | | | | | +-<Negate Exp> ::= <Value>\r\n" + 
-            "| | | | | | | +-<Value> ::= Id\r\n" + 
+        String expected =
+            "+-<Statements> ::= <Statement> <Statements>\r\n" +
+            "| +-<Statement> ::= assign Id '=' <Expression>\r\n" +
+            "| | +-Assign\r\n" + "| | +-a\r\n" + "| | +-=\r\n" +
+            "| | +-<Expression> ::= <Add Exp>\r\n" +
+            "| | | +-<Add Exp> ::= <Add Exp> '+' <Mult Exp>\r\n" +
+            "| | | | +-<Add Exp> ::= <Mult Exp>\r\n" +
+            "| | | | | +-<Mult Exp> ::= <Negate Exp>\r\n" +
+            "| | | | | | +-<Negate Exp> ::= <Value>\r\n" +
+            "| | | | | | | +-<Value> ::= NumberLiteral\r\n" +
+            "| | | | | | | | +-1\r\n" +
+            "| | | | +-+\r\n" +
+            "| | | | +-<Mult Exp> ::= <Mult Exp> '/' <Negate Exp>\r\n" +
+            "| | | | | +-<Mult Exp> ::= <Negate Exp>\r\n" +
+            "| | | | | | +-<Negate Exp> ::= <Value>\r\n" +
+            "| | | | | | | +-<Value> ::= NumberLiteral\r\n" +
+            "| | | | | | | | +-2\r\n" + "| | | | | +-/\r\n" +
+            "| | | | | +-<Negate Exp> ::= <Value>\r\n" +
+            "| | | | | | +-<Value> ::= '(' <Expression> ')'\r\n" +
+            "| | | | | | | +-(\r\n" +
+            "| | | | | | | +-<Expression> ::= <Add Exp>\r\n" +
+            "| | | | | | | | +-<Add Exp> ::= <Mult Exp>\r\n" +
+            "| | | | | | | | | +-<Mult Exp> ::= <Mult Exp> '*' <Negate Exp>\r\n" +
+            "| | | | | | | | | | +-<Mult Exp> ::= <Negate Exp>\r\n" +
+            "| | | | | | | | | | | +-<Negate Exp> ::= <Value>\r\n" +
+            "| | | | | | | | | | | | +-<Value> ::= NumberLiteral\r\n" +
+            "| | | | | | | | | | | | | +-3\r\n" +
+            "| | | | | | | | | | +-*\r\n" +
+            "| | | | | | | | | | +-<Negate Exp> ::= <Value>\r\n" +
+            "| | | | | | | | | | | +-<Value> ::= NumberLiteral\r\n" +
+            "| | | | | | | | | | | | +-4\r\n" +
+            "| | | | | | | +-)\r\n" +
+            "| +-<Statements> ::= <Statement>\r\n" +
+            "| | +-<Statement> ::= display <Expression>\r\n" +
+            "| | | +-Display\r\n" +
+            "| | | +-<Expression> ::= <Add Exp>\r\n" +
+            "| | | | +-<Add Exp> ::= <Add Exp> '+' <Mult Exp>\r\n" +
+            "| | | | | +-<Add Exp> ::= <Mult Exp>\r\n" +
+            "| | | | | | +-<Mult Exp> ::= <Negate Exp>\r\n" +
+            "| | | | | | | +-<Negate Exp> ::= <Value>\r\n" +
+            "| | | | | | | | +-<Value> ::= StringLiteral\r\n" +
+            "| | | | | | | | | +-\"Answer: \"\r\n" +
+            "| | | | | +-+\r\n" +
+            "| | | | | +-<Mult Exp> ::= <Negate Exp>\r\n" +
+            "| | | | | | +-<Negate Exp> ::= <Value>\r\n" +
+            "| | | | | | | +-<Value> ::= Id\r\n" +
             "| | | | | | | | +-a\r\n";
 
         GOLDParser parser = new GOLDParser();
@@ -431,36 +431,36 @@ public class GOLDParserTest extends TestCase {
         String source = "Assign a = 1 + 2 / (3 * 4)\r\n" + "Display \"Answer: \" + a ";
 
         // This should match the output of the VB reference implementation
-        String expected = 
-            "+-<Statements> ::= <Statement> <Statements>\r\n" + 
-            "| +-<Statement> ::= assign Id '=' <Expression>\r\n" + 
-            "| | +-Assign\r\n" + 
-            "| | +-a\r\n" + 
-            "| | +-=\r\n" + 
-            "| | +-<Add Exp> ::= <Add Exp> '+' <Mult Exp>\r\n" + 
-            "| | | +-<Value> ::= NumberLiteral\r\n" + 
-            "| | | | +-1\r\n" + 
-            "| | | +-+\r\n" + 
-            "| | | +-<Mult Exp> ::= <Mult Exp> '/' <Negate Exp>\r\n" + 
-            "| | | | +-<Value> ::= NumberLiteral\r\n" + 
-            "| | | | | +-2\r\n" + 
-            "| | | | +-/\r\n" + 
-            "| | | | +-<Value> ::= '(' <Expression> ')'\r\n" + 
-            "| | | | | +-(\r\n" + 
-            "| | | | | +-<Mult Exp> ::= <Mult Exp> '*' <Negate Exp>\r\n" + 
-            "| | | | | | +-<Value> ::= NumberLiteral\r\n" + 
-            "| | | | | | | +-3\r\n" + 
-            "| | | | | | +-*\r\n" + 
-            "| | | | | | +-<Value> ::= NumberLiteral\r\n" + 
-            "| | | | | | | +-4\r\n" + 
-            "| | | | | +-)\r\n" + 
-            "| +-<Statement> ::= display <Expression>\r\n" + 
-            "| | +-Display\r\n" + 
-            "| | +-<Add Exp> ::= <Add Exp> '+' <Mult Exp>\r\n" + 
-            "| | | +-<Value> ::= StringLiteral\r\n" + 
-            "| | | | +-\"Answer: \"\r\n" + 
-            "| | | +-+\r\n" + 
-            "| | | +-<Value> ::= Id\r\n" + 
+        String expected =
+            "+-<Statements> ::= <Statement> <Statements>\r\n" +
+            "| +-<Statement> ::= assign Id '=' <Expression>\r\n" +
+            "| | +-Assign\r\n" +
+            "| | +-a\r\n" +
+            "| | +-=\r\n" +
+            "| | +-<Add Exp> ::= <Add Exp> '+' <Mult Exp>\r\n" +
+            "| | | +-<Value> ::= NumberLiteral\r\n" +
+            "| | | | +-1\r\n" +
+            "| | | +-+\r\n" +
+            "| | | +-<Mult Exp> ::= <Mult Exp> '/' <Negate Exp>\r\n" +
+            "| | | | +-<Value> ::= NumberLiteral\r\n" +
+            "| | | | | +-2\r\n" +
+            "| | | | +-/\r\n" +
+            "| | | | +-<Value> ::= '(' <Expression> ')'\r\n" +
+            "| | | | | +-(\r\n" +
+            "| | | | | +-<Mult Exp> ::= <Mult Exp> '*' <Negate Exp>\r\n" +
+            "| | | | | | +-<Value> ::= NumberLiteral\r\n" +
+            "| | | | | | | +-3\r\n" +
+            "| | | | | | +-*\r\n" +
+            "| | | | | | +-<Value> ::= NumberLiteral\r\n" +
+            "| | | | | | | +-4\r\n" +
+            "| | | | | +-)\r\n" +
+            "| +-<Statement> ::= display <Expression>\r\n" +
+            "| | +-Display\r\n" +
+            "| | +-<Add Exp> ::= <Add Exp> '+' <Mult Exp>\r\n" +
+            "| | | +-<Value> ::= StringLiteral\r\n" +
+            "| | | | +-\"Answer: \"\r\n" +
+            "| | | +-+\r\n" +
+            "| | | +-<Value> ::= Id\r\n" +
             "| | | | +-a\r\n";
 
         GOLDParser parser = new GOLDParser();
@@ -479,36 +479,36 @@ public class GOLDParserTest extends TestCase {
         String source = "Assign a = 1 + 2 / (3 * 4)\r\n" + "Display \"Answer: \" + a ";
 
         // This should match the output of the VB reference implementation
-        String expected = 
-            "+-<Statements> ::= <Statement> <Statements>\r\n" + 
-            "| +-<Statement> ::= assign Id '=' <Expression>\r\n" + 
-            "| | +-Assign\r\n" + 
-            "| | +-a\r\n" + 
-            "| | +-=\r\n" + 
-            "| | +-<Add Exp> ::= <Add Exp> '+' <Mult Exp>\r\n" + 
-            "| | | +-<Value> ::= NumberLiteral\r\n" + 
-            "| | | | +-1\r\n" + 
-            "| | | +-+\r\n" + 
-            "| | | +-<Mult Exp> ::= <Mult Exp> '/' <Negate Exp>\r\n" + 
-            "| | | | +-<Value> ::= NumberLiteral\r\n" + 
-            "| | | | | +-2\r\n" + 
-            "| | | | +-/\r\n" + 
-            "| | | | +-<Value> ::= '(' <Expression> ')'\r\n" + 
-            "| | | | | +-(\r\n" + 
-            "| | | | | +-<Mult Exp> ::= <Mult Exp> '*' <Negate Exp>\r\n" + 
-            "| | | | | | +-<Value> ::= NumberLiteral\r\n" + 
-            "| | | | | | | +-3\r\n" + 
-            "| | | | | | +-*\r\n" + 
-            "| | | | | | +-<Value> ::= NumberLiteral\r\n" + 
-            "| | | | | | | +-4\r\n" + 
-            "| | | | | +-)\r\n" + 
-            "| +-<Statement> ::= display <Expression>\r\n" + 
-            "| | +-Display\r\n" + 
-            "| | +-<Add Exp> ::= <Add Exp> '+' <Mult Exp>\r\n" + 
-            "| | | +-<Value> ::= StringLiteral\r\n" + 
-            "| | | | +-\"Answer: \"\r\n" + 
-            "| | | +-+\r\n" + 
-            "| | | +-<Value> ::= Id\r\n" + 
+        String expected =
+            "+-<Statements> ::= <Statement> <Statements>\r\n" +
+            "| +-<Statement> ::= assign Id '=' <Expression>\r\n" +
+            "| | +-Assign\r\n" +
+            "| | +-a\r\n" +
+            "| | +-=\r\n" +
+            "| | +-<Add Exp> ::= <Add Exp> '+' <Mult Exp>\r\n" +
+            "| | | +-<Value> ::= NumberLiteral\r\n" +
+            "| | | | +-1\r\n" +
+            "| | | +-+\r\n" +
+            "| | | +-<Mult Exp> ::= <Mult Exp> '/' <Negate Exp>\r\n" +
+            "| | | | +-<Value> ::= NumberLiteral\r\n" +
+            "| | | | | +-2\r\n" +
+            "| | | | +-/\r\n" +
+            "| | | | +-<Value> ::= '(' <Expression> ')'\r\n" +
+            "| | | | | +-(\r\n" +
+            "| | | | | +-<Mult Exp> ::= <Mult Exp> '*' <Negate Exp>\r\n" +
+            "| | | | | | +-<Value> ::= NumberLiteral\r\n" +
+            "| | | | | | | +-3\r\n" +
+            "| | | | | | +-*\r\n" +
+            "| | | | | | +-<Value> ::= NumberLiteral\r\n" +
+            "| | | | | | | +-4\r\n" +
+            "| | | | | +-)\r\n" +
+            "| +-<Statement> ::= display <Expression>\r\n" +
+            "| | +-Display\r\n" +
+            "| | +-<Add Exp> ::= <Add Exp> '+' <Mult Exp>\r\n" +
+            "| | | +-<Value> ::= StringLiteral\r\n" +
+            "| | | | +-\"Answer: \"\r\n" +
+            "| | | +-+\r\n" +
+            "| | | +-<Value> ::= Id\r\n" +
             "| | | | +-a\r\n";
 
         GOLDParser parser = new GOLDParser();
@@ -529,23 +529,23 @@ public class GOLDParserTest extends TestCase {
         GOLDParser parser = new GOLDParser();
         parser.setup(new File("src/test/resources/parser/Simple2.cgt"));
         parser.setTrimReductions(true);
-        
+
         assertFalse("should have parse error", parser.parseSourceStatements(source));
-        assertEquals("wrong msg", "Runaway group (no closing group terminator found). Last position line 1, column 1.", 
+        assertEquals("wrong msg", "Runaway group (no closing group terminator found). Last position line 1, column 1.",
             parser.getErrorMessage());
     }
 
     /*----------------------------------------------------------------------------*/
-    
+
     @Test
     public void testParse_with_internal_error() throws Exception {
         // Sample source to parse
         String source = "assign i = 1\r\n";
-        
+
         GOLDParserForTesting parser = new GOLDParserForTesting();
         parser.setup(new File("src/test/resources/parser/Simple2.cgt"));
         parser.setTrimReductions(true);
-        
+
         // artificially alter the LRStates so an internal error is generated
         LRStateList states = parser.getStates();
         for (int i = 0; i < states.size(); i++) {
@@ -560,10 +560,10 @@ public class GOLDParserTest extends TestCase {
         }
 
         assertFalse("should have parse error", parser.parseSourceStatements(source));
-        assertEquals("wrong msg", "Internal processing error. Last position line 2, column 1.", 
+        assertEquals("wrong msg", "Internal processing error. Last position line 2, column 1.",
                 parser.getErrorMessage());
     }
-    
+
     /*----------------------------------------------------------------------------*/
 
     @Test
@@ -607,14 +607,14 @@ public class GOLDParserTest extends TestCase {
     }
 
     /*----------------------------------------------------------------------------*/
-    
+
     @Test
     public void testGenerateTree() throws Exception {
         GOLDParserForTesting parser = new GOLDParserForTesting(new File("src/test/resources/parser/Simple2.cgt"), "com.creativewidgetworks.goldparser.simple2", true);
-        
+
         // Sample source to parse
         String source = "assign i = 1\r\n";
-        
+
         parser.setGenerateTree(false);
         parser.setTrimReductions(false);
         parser.parseSourceStatements(source);
@@ -627,10 +627,10 @@ public class GOLDParserTest extends TestCase {
     public void testValidHandlersExist() throws Exception {
         GOLDParserForTesting parser = new GOLDParserForTesting(new File("src/test/resources/parser/Simple2.cgt"), "com.creativewidgetworks.goldparser.simple2", true);
         assertEquals("expected empty list", 0, parser.validateHandlersExist().size());
-        
+
         // There will be missing rules between Simple2 and Simple3 grammars
         parser = new GOLDParserForTesting(new File("src/test/resources/parser/Simple2.cgt"), "com.creativewidgetworks.goldparser.simple3", true);
-        
+
         String[] expected = {
             "No rule handler for rule <Statements> ::= <Statement> <Statements>",
             "No rule handler for rule <Statements> ::= <Statement>",
@@ -645,44 +645,44 @@ public class GOLDParserTest extends TestCase {
     }
 
     /*----------------------------------------------------------------------------*/
-    
+
     private List<Token> filterByIndentTerminals(List<Token> tokens) {
         List<Token> list = new ArrayList<Token>();
         for (Token token : tokens) {
             if (token.getName().equals(GOLDParser.VT_INDENT_INCREASE) || token.getName().equals(GOLDParser.VT_INDENT_DECREASE)) {
                 list.add(token);
-            }    
+            }
         }
         return list;
     }
-    
+
     private Token makeIndentToken(String name, int line, int column, Object indentLevels) {
         Position position = new Position(line, column);
         return new Token(new Symbol(name, SymbolType.CONTENT, 0), indentLevels, position);
     }
-    
+
     @Test
     public void testIndentVirtualTerminals_position() throws Exception {
-        String source = 
-            "if (1==1):\r\n" + 
-            "  print 'true - first line'\r\n" + 
-            "  print 'true - second line'\r\n" + 
-            "  if (2==2):\r\n" + 
-            "    print 'true - level 2'\r\n" + 
-            "    print 'true - level 2'\r\n" + 
-            "  if (3==3):\r\n" + 
+        String source =
+            "if (1==1):\r\n" +
+            "  print 'true - first line'\r\n" +
+            "  print 'true - second line'\r\n" +
+            "  if (2==2):\r\n" +
+            "    print 'true - level 2'\r\n" +
+            "    print 'true - level 2'\r\n" +
+            "  if (3==3):\r\n" +
             "    print 'true - level 3'\r\n" +
             "  print 'about done'\r\n" +
             "print 'always should print'";
-        
+
         GOLDParserForTesting parser = new GOLDParserForTesting();
         parser.setup(new File("src/test/resources/parser/simplepy.egt"));
         parser.setGenerateTree(true);
         parser.setTrimReductions(true);
         parser.parseSourceStatements(source);
-        
-        Token[] expected = { 
-            //                                             parse indent  
+
+        Token[] expected = {
+            //                                             parse indent
             //                       name                  r  c  levels
             makeIndentToken(GOLDParser.VT_INDENT_INCREASE, 2, 3,  "3,1"),
             makeIndentToken(GOLDParser.VT_INDENT_INCREASE, 5, 5,  "5,3,1"),
@@ -691,7 +691,7 @@ public class GOLDParserTest extends TestCase {
             makeIndentToken(GOLDParser.VT_INDENT_DECREASE, 9, 3,  "3,1"),
             makeIndentToken(GOLDParser.VT_INDENT_DECREASE, 10,1,  "1"),
         };
-        
+
         List<Token> tokens = filterByIndentTerminals(parser.getTokensRead());
         assertEquals("wrong number of tokens", expected.length, tokens.size());
         for (int i = 0; i < expected.length; i++) {
@@ -705,122 +705,122 @@ public class GOLDParserTest extends TestCase {
             assertEquals("row " + i + ":column", expectedPosition.getColumn(), actualPosition.getColumn());
         }
     }
-    
+
     /*----------------------------------------------------------------------------*/
-    
+
     @Test
     public void testIndentVirtualTerminals_tree() throws Exception {
-        String source = 
-            "if (1==1):\r\n" + 
-            "  print 'true - first line'\r\n" + 
-            "  print 'true - second line'\r\n" + 
-            "  if (2==2):\r\n" + 
-            "      print 'true - level 2'\r\n" + 
-            "      print 'true - level 2'\r\n" + 
-            "      if (3==3):\r\n" + 
-            "        print 'true - level 3'\r\n" + 
+        String source =
+            "if (1==1):\r\n" +
+            "  print 'true - first line'\r\n" +
+            "  print 'true - second line'\r\n" +
+            "  if (2==2):\r\n" +
+            "      print 'true - level 2'\r\n" +
+            "      print 'true - level 2'\r\n" +
+            "      if (3==3):\r\n" +
+            "        print 'true - level 3'\r\n" +
             "print 'always should print'";
-        
-        String expected = 
-            "+-<Statements> ::= <StatementOrBlock> <Statements>\r\n" + 
-            "| +-<Statement> ::= if <Expression> ':' <StatementOrBlock>\r\n" + 
-            "| | +-if\r\n" + 
-            "| | +-<Value> ::= '(' <Expression> ')'\r\n" + 
-            "| | | +-(\r\n" + 
-            "| | | +-<Expression> ::= <Expression> '==' <Add Exp>\r\n" + 
-            "| | | | +-<Value> ::= NumberLiteral\r\n" + 
-            "| | | | | +-1\r\n" + 
-            "| | | | +-==\r\n" + 
-            "| | | | +-<Value> ::= NumberLiteral\r\n" + 
-            "| | | | | +-1\r\n" + 
-            "| | | +-)\r\n" + 
-            "| | +-:\r\n" + 
-            "| | +-<StatementOrBlock> ::= IndentIncrease <Statements> IndentDecrease\r\n" + 
-            "| | | +-3,1\r\n" + 
-            "| | | +-<Statements> ::= <StatementOrBlock> <Statements>\r\n" + 
-            "| | | | +-<Statement> ::= print <Expression>\r\n" + 
-            "| | | | | +-print\r\n" + 
-            "| | | | | +-<Value> ::= StringLiteral\r\n" + 
-            "| | | | | | +-'true - first line'\r\n" + 
-            "| | | | +-<Statements> ::= <StatementOrBlock> <Statements>\r\n" + 
-            "| | | | | +-<Statement> ::= print <Expression>\r\n" + 
-            "| | | | | | +-print\r\n" + 
-            "| | | | | | +-<Value> ::= StringLiteral\r\n" + 
-            "| | | | | | | +-'true - second line'\r\n" + 
-            "| | | | | +-<Statement> ::= if <Expression> ':' <StatementOrBlock>\r\n" + 
-            "| | | | | | +-if\r\n" + 
-            "| | | | | | +-<Value> ::= '(' <Expression> ')'\r\n" + 
-            "| | | | | | | +-(\r\n" + 
-            "| | | | | | | +-<Expression> ::= <Expression> '==' <Add Exp>\r\n" + 
-            "| | | | | | | | +-<Value> ::= NumberLiteral\r\n" + 
-            "| | | | | | | | | +-2\r\n" + 
-            "| | | | | | | | +-==\r\n" + 
-            "| | | | | | | | +-<Value> ::= NumberLiteral\r\n" + 
-            "| | | | | | | | | +-2\r\n" + 
-            "| | | | | | | +-)\r\n" + 
-            "| | | | | | +-:\r\n" + 
-            "| | | | | | +-<StatementOrBlock> ::= IndentIncrease <Statements> IndentDecrease\r\n" + 
-            "| | | | | | | +-7,3,1\r\n" + 
-            "| | | | | | | +-<Statements> ::= <StatementOrBlock> <Statements>\r\n" + 
-            "| | | | | | | | +-<Statement> ::= print <Expression>\r\n" + 
-            "| | | | | | | | | +-print\r\n" + 
-            "| | | | | | | | | +-<Value> ::= StringLiteral\r\n" + 
-            "| | | | | | | | | | +-'true - level 2'\r\n" + 
-            "| | | | | | | | +-<Statements> ::= <StatementOrBlock> <Statements>\r\n" + 
-            "| | | | | | | | | +-<Statement> ::= print <Expression>\r\n" + 
-            "| | | | | | | | | | +-print\r\n" + 
-            "| | | | | | | | | | +-<Value> ::= StringLiteral\r\n" + 
-            "| | | | | | | | | | | +-'true - level 2'\r\n" + 
-            "| | | | | | | | | +-<Statement> ::= if <Expression> ':' <StatementOrBlock>\r\n" + 
-            "| | | | | | | | | | +-if\r\n" + 
-            "| | | | | | | | | | +-<Value> ::= '(' <Expression> ')'\r\n" + 
-            "| | | | | | | | | | | +-(\r\n" + 
-            "| | | | | | | | | | | +-<Expression> ::= <Expression> '==' <Add Exp>\r\n" + 
-            "| | | | | | | | | | | | +-<Value> ::= NumberLiteral\r\n" + 
-            "| | | | | | | | | | | | | +-3\r\n" + 
-            "| | | | | | | | | | | | +-==\r\n" + 
-            "| | | | | | | | | | | | +-<Value> ::= NumberLiteral\r\n" + 
-            "| | | | | | | | | | | | | +-3\r\n" + 
-            "| | | | | | | | | | | +-)\r\n" + 
-            "| | | | | | | | | | +-:\r\n" + 
-            "| | | | | | | | | | +-<StatementOrBlock> ::= IndentIncrease <Statements> IndentDecrease\r\n" + 
-            "| | | | | | | | | | | +-9,7,3,1\r\n" + 
-            "| | | | | | | | | | | +-<Statement> ::= print <Expression>\r\n" + 
-            "| | | | | | | | | | | | +-print\r\n" + 
-            "| | | | | | | | | | | | +-<Value> ::= StringLiteral\r\n" + 
-            "| | | | | | | | | | | | | +-'true - level 3'\r\n" + 
-            "| | | | | | | | | | | +-1\r\n" + 
-            "| | | | | | | +-3,1\r\n" + 
-            "| | | +-7,3,1\r\n" + 
-            "| +-<Statement> ::= print <Expression>\r\n" + 
-            "| | +-print\r\n" + 
-            "| | +-<Value> ::= StringLiteral\r\n" + 
+
+        String expected =
+            "+-<Statements> ::= <StatementOrBlock> <Statements>\r\n" +
+            "| +-<Statement> ::= if <Expression> ':' <StatementOrBlock>\r\n" +
+            "| | +-if\r\n" +
+            "| | +-<Value> ::= '(' <Expression> ')'\r\n" +
+            "| | | +-(\r\n" +
+            "| | | +-<Expression> ::= <Expression> '==' <Add Exp>\r\n" +
+            "| | | | +-<Value> ::= NumberLiteral\r\n" +
+            "| | | | | +-1\r\n" +
+            "| | | | +-==\r\n" +
+            "| | | | +-<Value> ::= NumberLiteral\r\n" +
+            "| | | | | +-1\r\n" +
+            "| | | +-)\r\n" +
+            "| | +-:\r\n" +
+            "| | +-<StatementOrBlock> ::= IndentIncrease <Statements> IndentDecrease\r\n" +
+            "| | | +-3,1\r\n" +
+            "| | | +-<Statements> ::= <StatementOrBlock> <Statements>\r\n" +
+            "| | | | +-<Statement> ::= print <Expression>\r\n" +
+            "| | | | | +-print\r\n" +
+            "| | | | | +-<Value> ::= StringLiteral\r\n" +
+            "| | | | | | +-'true - first line'\r\n" +
+            "| | | | +-<Statements> ::= <StatementOrBlock> <Statements>\r\n" +
+            "| | | | | +-<Statement> ::= print <Expression>\r\n" +
+            "| | | | | | +-print\r\n" +
+            "| | | | | | +-<Value> ::= StringLiteral\r\n" +
+            "| | | | | | | +-'true - second line'\r\n" +
+            "| | | | | +-<Statement> ::= if <Expression> ':' <StatementOrBlock>\r\n" +
+            "| | | | | | +-if\r\n" +
+            "| | | | | | +-<Value> ::= '(' <Expression> ')'\r\n" +
+            "| | | | | | | +-(\r\n" +
+            "| | | | | | | +-<Expression> ::= <Expression> '==' <Add Exp>\r\n" +
+            "| | | | | | | | +-<Value> ::= NumberLiteral\r\n" +
+            "| | | | | | | | | +-2\r\n" +
+            "| | | | | | | | +-==\r\n" +
+            "| | | | | | | | +-<Value> ::= NumberLiteral\r\n" +
+            "| | | | | | | | | +-2\r\n" +
+            "| | | | | | | +-)\r\n" +
+            "| | | | | | +-:\r\n" +
+            "| | | | | | +-<StatementOrBlock> ::= IndentIncrease <Statements> IndentDecrease\r\n" +
+            "| | | | | | | +-7,3,1\r\n" +
+            "| | | | | | | +-<Statements> ::= <StatementOrBlock> <Statements>\r\n" +
+            "| | | | | | | | +-<Statement> ::= print <Expression>\r\n" +
+            "| | | | | | | | | +-print\r\n" +
+            "| | | | | | | | | +-<Value> ::= StringLiteral\r\n" +
+            "| | | | | | | | | | +-'true - level 2'\r\n" +
+            "| | | | | | | | +-<Statements> ::= <StatementOrBlock> <Statements>\r\n" +
+            "| | | | | | | | | +-<Statement> ::= print <Expression>\r\n" +
+            "| | | | | | | | | | +-print\r\n" +
+            "| | | | | | | | | | +-<Value> ::= StringLiteral\r\n" +
+            "| | | | | | | | | | | +-'true - level 2'\r\n" +
+            "| | | | | | | | | +-<Statement> ::= if <Expression> ':' <StatementOrBlock>\r\n" +
+            "| | | | | | | | | | +-if\r\n" +
+            "| | | | | | | | | | +-<Value> ::= '(' <Expression> ')'\r\n" +
+            "| | | | | | | | | | | +-(\r\n" +
+            "| | | | | | | | | | | +-<Expression> ::= <Expression> '==' <Add Exp>\r\n" +
+            "| | | | | | | | | | | | +-<Value> ::= NumberLiteral\r\n" +
+            "| | | | | | | | | | | | | +-3\r\n" +
+            "| | | | | | | | | | | | +-==\r\n" +
+            "| | | | | | | | | | | | +-<Value> ::= NumberLiteral\r\n" +
+            "| | | | | | | | | | | | | +-3\r\n" +
+            "| | | | | | | | | | | +-)\r\n" +
+            "| | | | | | | | | | +-:\r\n" +
+            "| | | | | | | | | | +-<StatementOrBlock> ::= IndentIncrease <Statements> IndentDecrease\r\n" +
+            "| | | | | | | | | | | +-9,7,3,1\r\n" +
+            "| | | | | | | | | | | +-<Statement> ::= print <Expression>\r\n" +
+            "| | | | | | | | | | | | +-print\r\n" +
+            "| | | | | | | | | | | | +-<Value> ::= StringLiteral\r\n" +
+            "| | | | | | | | | | | | | +-'true - level 3'\r\n" +
+            "| | | | | | | | | | | +-1\r\n" +
+            "| | | | | | | +-3,1\r\n" +
+            "| | | +-7,3,1\r\n" +
+            "| +-<Statement> ::= print <Expression>\r\n" +
+            "| | +-print\r\n" +
+            "| | +-<Value> ::= StringLiteral\r\n" +
             "| | | +-'always should print'\r\n";
-        
+
         GOLDParser parser = new GOLDParser();
         parser.setup(new File("src/test/resources/parser/simplepy.egt"));
         parser.setGenerateTree(true);
         parser.setTrimReductions(true);
         parser.parseSourceStatements(source);
-        assertEquals("wrong tree", expected, parser.getParseTree());   
+        assertEquals("wrong tree", expected, parser.getParseTree());
     }
-    
+
     /*----------------------------------------------------------------------------*/
-    
+
     @Test
     public void testPosition() throws Exception {
-        String source = 
-            "   if (1==1):\r\n" + 
-            "     print 'true - first line'\r\n" + 
-            "     print 'true - second line'\r\n" + 
+        String source =
+            "   if (1==1):\r\n" +
+            "     print 'true - first line'\r\n" +
+            "     print 'true - second line'\r\n" +
             "print 'always should print'";
-        
+
         GOLDParserForTesting parser = new GOLDParserForTesting();
         parser.setup(new File("src/test/resources/parser/simplepy.egt"));
         parser.setGenerateTree(true);
         parser.setTrimReductions(true);
         parser.parseSourceStatements(source);
-    
+
         Position[] expected = new Position[] {
             new Position(1,1), new Position(1,4), new Position(1,6), new Position(1,7), new Position(1,8),
             new Position(1,9), new Position(1,11), new Position(1,12), new Position(1,13), new Position(1,14),
@@ -828,14 +828,39 @@ public class GOLDParserTest extends TestCase {
             new Position(3,6), new Position(3,11), new Position(3,12), new Position(3,32),
             new Position(4,1), new Position(4,1), new Position(4,6), new Position(4,7), new Position(4,28),
         };
-    
+
         List<Token> tokens = parser.getTokensRead();
-        
+
         assertEquals("wrong number of tokens", expected.length, tokens.size());
         for (int i = 0; i < expected.length; i++) {
             assertEquals("token " + i + ":line", expected[i].getLine(), tokens.get(i).getPosition().getLine());
             assertEquals("token " + i + ":column", expected[i].getColumn(), tokens.get(i).getPosition().getColumn());
         }
     }
+
+
+    /*----------------------------------------------------------------------------*/
+
+    // Test to expose defect where a line comment on the last line generates
+    // a runaway group error. Reported by codemanyak
+    @Test
+    public void testParse_single_line_comment_on_last_line() throws Exception {
+        GOLDParser parser = new GOLDParser();
+        parser.setup(new File("src/test/resources/parser/Simple2.cgt"));
+
+        // Line comment is not the last line
+        String src = "// This is a line comment\r\nassign a=1+1";
+        parser.parseSourceStatements(src);
+        assertEquals("wrong msg", "", parser.getErrorMessage());
+        assertTrue(parser.parseSourceStatements(src));
+
+        // Line comment is the last line
+        src = "assign a=1+1\r\n// This is a line comment";
+        parser.parseSourceStatements(src);
+        assertEquals("wrong msg", "", parser.getErrorMessage());
+        assertTrue(parser.parseSourceStatements(src));
+    }
+
+
 
 }

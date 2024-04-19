@@ -19,7 +19,7 @@ programs.
 
 ## Requirements
 
-This project uses Java 1.5+ and requires no additional libraries other than the ones provided by the JDK/JRE.
+This project uses Java 1.8+ and requires no additional libraries other than the ones provided by the JDK/JRE.
 
 ## Installation
 
@@ -43,7 +43,7 @@ If you're using Maven, add the following to your project's pom.xml:
     <dependency>
       <groupId>com.creativewidgetworks</groupId>
       <artifactId>goldengine</artifactId>
-      <version>5.0.5</version>
+      <version>5.0.6</version>
     </dependency>
 
 The goldengine engine jar is available for download at the Maven Central repository.
@@ -64,16 +64,16 @@ Examples (assumes the current directory is where simple2.jar or simple3.jar is l
     
 ## Version History
 
- - 5.0.6-SNAPSHOT -- Refactor of Maven build. Removed ant building. Other work in progress, hench the SNAPSHOT.
+ - 5.0.6 -- Refactor to build using Maven and Java 1.8. Removed ant building. Fixed bug reported in Issue #28 (thanks to **codemanyak** for reporting the defect and submitting the fix)
  
  - 5.0.5 -- Refactor to allow creation of engine only and engine with examples jars (thanks to **vincent-vandemeulebrouck-ullink**).
  - 5.0.4 
  -- Fixed issue with Symbol.literalFormat() that didn't handle non-identifiers correctly resulting in unquoted minus symbol. This also fixed potential issue with "." and "_" as well.
  - 5.0.3 
  -- Added support for virtual terminals including IndentIncrease / IndentDecrease to support grammars like Python where indentation marks blocks. Fixed issue with incorrect column number reporting. Fixed issue with spaces and other special characters in ReflectionHelper (a big thank you to **nimatrueway** for not only identifying the problem, but also providing a clean solution to the issue).
- - 5.0.2 Fixed Token.appendData() performance issue
- - 5.0.1 Fixed error loading larger grammar files
- - 5.0.0 Initial release for GOLD Builder 5.0
+ - 5.0.2 -- Fixed Token.appendData() performance issue
+ - 5.0.1 -- Fixed error loading larger grammar files
+ - 5.0.0 -- Initial release for GOLD Builder 5.0
 
     
 ## License
