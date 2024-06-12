@@ -938,7 +938,21 @@ public class Parser {
                 }
             } else if (read.getType().equals(SymbolType.END)) {
                 // EOF always stops the loop. The caller method (parse) can flag a runaway group error.
-                token = read;
+                // START KGU#1144 2024-04-15: Bugfix #28 Save a line comment at end of file
+                //token = read;
+                // An open group (e.g. line comment) expecting just some NOISE, however, should be preserved
+                Token grp = null;
+                if (groupStack.size() == 1
+                        && (grp = groupStack.peek()).getGroup().getEndingMode() == EndingMode.OPEN
+                        && grp.getGroup().getEnd().getType().equals(SymbolType.NOISE)) {
+                    groupStack.pop();
+                    grp.setSymbol(grp.getGroup().getContainer());
+                    token = grp;
+                }
+                else {
+                    token = read;
+                }
+                // END KGU#1144 2024-04-15
                 done = true;
             } else {
                 // We are in a group, Append to the Token on the top of the stack.
